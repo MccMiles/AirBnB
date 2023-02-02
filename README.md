@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![Alt text](./Screen%20Shot%202023-02-01%20at%2011.30.18%20PM.png)
+![Alt text](./Screen%20Shot%202023-02-02%20at%2012.13.27%20AM.png)
 
 ## API Documentation
 
