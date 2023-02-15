@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       return { id, username, email };
     }
     static associate(models) {
-      // define association here
+      User.hasMany(Booking, { foreignKey: 'userId' });
+      User.hasMany(Review, { foreignKey: 'userId' });
+      //import
     }
 
     validatePassword(password) {
