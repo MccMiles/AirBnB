@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class booking extends Model {
 
@@ -13,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
   booking.init({
     spotId: {
       type: DataTypes.INTEGER,
-      references: { model: 'spot', key: 'id'},
+      references: { model: 'Spot', key: 'id'},
       onDelete: 'CASCADE'
     },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: 'user', key: 'id'},
+      references: { model: 'User', key: 'id'},
       onDelete: 'CASCADE'
     },
     startDate: {
@@ -48,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   },
     sequelize,
-    modelName: 'booking',
+    modelName: 'Booking',
   });
   return booking;
 
