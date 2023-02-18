@@ -1,11 +1,14 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 
+let options = { };
+if(process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA; }
 
 module.exports = {
   async up(queryInterface, Sequelize) {
     options.tableName = 'Reviews'
-    await queryInterface.createTable('reviews', {
+    await queryInterface.createTable('options', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,12 +17,12 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-        references: { model: 'User', key: 'id' },
+        references: { model: 'Users', key: 'id' },
         onDelete: 'CASCADE'
       },
       spotId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Spots' },
+        references: { model: 'Spots', key: 'id' },
         onDelete: 'CASCADE'
       },
       review: {
@@ -43,6 +46,7 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('reviews');
+    options.tableName = 'Reviews'
+    await queryInterface.dropTable(options);
   }
 };

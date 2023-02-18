@@ -3,11 +3,11 @@
 
 let options = { };
 if(process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;}
+  options.schema = process.env.SCHEMA; }
 
   module.exports = {
     async up(queryInterface, Sequelize) {
-      options.tableName = 'SpotImage'
+      options.tableName = 'SpotImages'
       await queryInterface.createTable(options, {
         id: {
           type: Sequelize.INTEGER,
@@ -17,7 +17,7 @@ if(process.env.NODE_ENV === 'production') {
         },
         spotId: {
           type: Sequelize.INTEGER,
-          references: { model: 'Spot', key: 'id' },
+          references: { model: 'Spots', key: 'id' },
           allowNull: false,
           onDelete: 'CASCADE'
         },
@@ -42,7 +42,7 @@ if(process.env.NODE_ENV === 'production') {
       });
     },
     async down(queryInterface, Sequelize) {
-      options.tableName = 'SpotImage'
+      options.tableName = 'SpotImages'
       await queryInterface.dropTable(options);
     }
   };

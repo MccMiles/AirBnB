@@ -2,8 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    options.tableName = 'Spot';
-  
+    options.tableName = 'Spots';
     await queryInterface.createTable(options, {
       id: {
         type: Sequelize.INTEGER,
@@ -13,7 +12,7 @@ module.exports = {
       },
       ownerId: {
         type: Sequelize.INTEGER,
-        references: { model: 'User', key: 'id' },
+        references: { model: 'Users', key: 'id' },
         onDelete: 'CASCADE'
       },
       address: {
@@ -64,7 +63,7 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Spot';
+    options.tableName = 'Spots';
     await queryInterface.dropTable(options);
   }
 };
