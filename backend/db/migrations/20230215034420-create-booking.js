@@ -22,7 +22,7 @@ if(process.env.NODE_ENV === 'production') {
       },
       userId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Users', key: 'id' },
+        references: { model: 'Userscd db  ', key: 'id' },
         onDelete: 'CASCADE'
       },
       startDate: {
