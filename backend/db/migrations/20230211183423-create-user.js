@@ -1,18 +1,18 @@
 "use strict";
 
-let options = {};
+let options = { };
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  // define your schema in options object
-}
+  options.schema = process.env.SCHEMA; }
 
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Users", {
+  module.exports = {
+    async up(queryInterface, Sequelize) {
+      options.tableName = 'Users'
+      await queryInterface.createTable(options, {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        allowNull: false,
+        autoIncrement: true
       },
       firstName:{
         type: Sequelize.STRING,
@@ -48,8 +48,8 @@ module.exports = {
       }
     }, options);
   },
-  down: async (queryInterface, Sequelize) => {
-    options.tableName = "Users";
-    return queryInterface.dropTable(options);
+  async down(queryInterface, Sequelize) {
+    options.tableName = 'Users';
+    await queryInterface.dropTable(options);
   }
 };
