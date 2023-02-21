@@ -1,12 +1,12 @@
 const { Model } = require('sequelize');
-const bcrypt = require('bcryptjs');
+const { bcrypt } = require('bcryptjs');
 const { Booking } = require('./booking');
 const { Review } = require('./review'); 
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     toSafeObject() {
-      const { id, username, email } = this; // context will be the User instance
+      const { id, username, email } = this; 
       return { id, username, email };
     }
 
@@ -72,9 +72,9 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: true,
           len: [4, 30],
-          isNotEmail(str) {
-            if (Validator.isEmail(str)) {
-              throw new Error("Cannot be an email.");
+          isNotEmail(v) {
+            if (Validator.isEmail(v)) {
+              throw new Error("Cannot be an email.")
             }
           }
         }
