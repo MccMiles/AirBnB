@@ -9,9 +9,12 @@ module.exports = (sequelize, DataTypes) => {
       const { id, username, email } = this; // context will be the User instance
       return { id, username, email };
     }
+
+    
     static associate(models) {
-      User.hasMany(Booking, { foreignKey: 'userId' });
-      User.hasMany(Review, { foreignKey: 'userId' });
+      User.hasMany(models.Spot, { foreignKey: 'ownerId' });
+      User.hasMany(models.Booking, { foreignKey: 'userId' });
+      User.hasMany(models.Review, { foreignKey: 'userId' });
     }
 
 
@@ -35,19 +38,21 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       if (user && user.validatePassword(password)) {
-        return await User.scope('currentUser').findByPk(user.id);
+        return await User.findByPk(user.id);
         }
       }
 
-      static async signup({ username, email, password }) {
+       static async signup({ firstName, lastName, username, email, password }) {
         const hashedPassword = bcrypt.hashSync(password);
         const user = await User.create({
+          firstName,
+          lastName,
           username,
           email,
           hashedPassword
-      });
-      return await User.scope('currentUser').findByPk(user.id);
-    }
+        });
+        return await User.scope('currentUser').findByPk(user.id);
+      }
 
   };
 
@@ -105,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
           attributes: { exclude: ["hashedPassword"] }
         },
         loginUser: {
-          attributes: {}
+          attributes: { }
         }
       }
     }

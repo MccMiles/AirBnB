@@ -27,7 +27,7 @@ const newUsers = [
     firstName: 'Ororo',
     lastName: 'Munroe',
     email: 'ororomunroe@xmen.com',
-    username: 'Lightning_Queen',
+    username: 'LightQueen',
     hashedPassword: bcrypt.hashSync('password3')
   },
   {
@@ -35,20 +35,20 @@ const newUsers = [
     lastName: 'Blaze',
     email: 'johnnyblaze@riders.com',
     username: 'HellOnWheels',
-    hashedPassword: bcrypt.hashSync('password3')
+    hashedPassword: bcrypt.hashSync('password5')
   },
   {
     firstName: 'Monica',
     lastName: 'Rambeau',
     email: 'monicarambeau@avengers.com',
-    username: 'SpectrumSiren',
-    hashedPassword: bcrypt.hashSync('password3')
+    username: 'SpectraSiren',
+    hashedPassword: bcrypt.hashSync('password6')
   },
   {
     firstName: 'Kurt',
     lastName: 'Wagner',
     email: 'kurtwagner@xmen.com',
-    username: 'nightKrawlerrr',
+    username: 'nightKrawl',
     hashedPassword: bcrypt.hashSync('password3')
   }
 

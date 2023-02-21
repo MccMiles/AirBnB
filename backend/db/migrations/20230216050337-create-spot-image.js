@@ -17,7 +17,7 @@ if(process.env.NODE_ENV === 'production') {
         },
         spotId: {
           type: Sequelize.INTEGER,
-          references: { model: 'Spots', key: 'id' },
+          references: { model: 'Spots' },
           allowNull: false,
           onDelete: 'CASCADE'
         },

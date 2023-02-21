@@ -1,5 +1,3 @@
-
-
 // backend/routes/index.js
 const express = require("express");
 const router = express.Router();
@@ -7,16 +5,13 @@ const sessionRouter = require('./api/session.js');
 const usersRouter = require('./api/user.js');
 const { restoreUser } = require('../utils/auth.js')
 
-// ...
-const apiRouter = require('./api');
+// .................................
+router.get('/test', (req, res) => {
+  res.json({ message: 'success' });
+});
+// .................................
 
-router.use('/api', apiRouter);
-// ...
 
-
-
-// backend/routes/index.js
-// ...
 // Add a XSRF-TOKEN cookie
 router.get("/api/csrf/restore", (req, res) => {
   const csrfToken = req.csrfToken();
@@ -31,14 +26,23 @@ router.use(restoreUser);
 
 router.use('/session', sessionRouter);
 
+//routes
 router.use('/users', usersRouter);
+//routes
 
-router.post('/test', (req, res) => {
+
+router.get('/test', function (req, res) {
   res.json({ requestBody: req.body });
 });
 
 
 
+const apiRouter = require('./api');
+
+router.use('/api', apiRouter);
+
+
+//routes
 
 
 module.exports = router;
