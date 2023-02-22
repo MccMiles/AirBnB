@@ -3,7 +3,8 @@
 
 let options = { };
 if(process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA; }
+  options.schema = process.env.SCHEMA; 
+}
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -14,28 +15,27 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
-     },
-      reviewId: {
-        type: Sequelize.INTEGER,
-        allowNull: false, 
-        references: { model: 'Reviews' },
-        onDelete: 'CASCADE' 
       },
       url: {
-        type: Sequelize.STRING, 
-        allowNull: false 
-      }, 
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      reviewId: {
+        type: Sequelize.INTEGER,
+        references: { model: 'Reviews' },
+        onDelete: 'CASCADE'
+      },
       createdAt: {
-        type: Sequelize.DATE, 
-        allowNull: false, 
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
-        type: Sequelize.DATE, 
-        allowNull: false, 
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    });
+    }, options);
   },
 
   async down(queryInterface, Sequelize) {

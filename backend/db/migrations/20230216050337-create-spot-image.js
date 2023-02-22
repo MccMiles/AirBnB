@@ -25,7 +25,7 @@ if(process.env.NODE_ENV === 'production') {
           type: Sequelize.STRING,
           allowNull: false
         },
-        previewImg: {
+        previewImage: {
           type: Sequelize.BOOLEAN,
           allowNull: false
         },

@@ -5,15 +5,15 @@ let options = { };
 if(process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA; }
 
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    options.tableName = 'Reviews'
-    await queryInterface.createTable('options', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
+  module.exports = {
+    async up(queryInterface, Sequelize) {
+      options.tableName = 'Reviews'
+      await queryInterface.createTable(options, {
+        id: {
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        autoIncrement: true,
+        allowNull: false
       },
       userId: {
         type: Sequelize.INTEGER,

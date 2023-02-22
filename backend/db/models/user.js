@@ -1,7 +1,5 @@
-const { Model } = require('sequelize');
-const { bcrypt } = require('bcryptjs');
-const { Booking } = require('./booking');
-const { Review } = require('./review'); 
+const { Model, Validator} = require('sequelize');
+const bcrypt = require('bcryptjs')
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -9,14 +7,12 @@ module.exports = (sequelize, DataTypes) => {
       const { id, username, email } = this; 
       return { id, username, email };
     }
-
     
     static associate(models) {
       User.hasMany(models.Spot, { foreignKey: 'ownerId' });
       User.hasMany(models.Booking, { foreignKey: 'userId' });
       User.hasMany(models.Review, { foreignKey: 'userId' });
     }
-
 
     validatePassword(password) {
       return bcrypt.compareSync(password, this.hashedPassword.toString());

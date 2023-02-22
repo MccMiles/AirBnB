@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'production') {
       },
       firstName:{
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       lastName:{
         type: Sequelize.STRING,
