@@ -2,12 +2,13 @@
 
 let options = { };
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA; }
+  options.schema = process.env.SCHEMA; 
+}
 
   module.exports = {
     async up(queryInterface, Sequelize) {
-      options.tableName = 'Users'
-      await queryInterface.createTable(options, {
+  
+      await queryInterface.createTable('Users', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -16,7 +17,7 @@ if (process.env.NODE_ENV === 'production') {
       },
       firstName:{
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       lastName:{
         type: Sequelize.STRING,

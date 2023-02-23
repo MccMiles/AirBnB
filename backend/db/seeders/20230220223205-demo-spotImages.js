@@ -12,32 +12,32 @@ const si =
   {
     spotId: 1,
     url: 'Image.url',
-    previewImg: true
+    previewImage: true
   },
   {
     spotId: 2,
     url: 'Image.url',
-    previewImg: true
+    previewImage: true
   },
   {
     spotId: 3,
     url: 'Image.url',
-    previewImg: true
+    previewImage: true
   },
   {
     spotId: 4,
     url: 'Image.url',
-    previewImg: true
+    previewImage: true
   },
   {
     spotId: 5,
     url: 'Image.url',
-    previewImg: true
+    previewImage: true
   },
   {
     spotId: 6,
     url: 'Image.url',
-    previewImg: true
+    previewImage: true
   },
 ]
   

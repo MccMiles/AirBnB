@@ -8,7 +8,7 @@ if(process.env.NODE_ENV === 'production') {
   module.exports = {
     async up(queryInterface, Sequelize) {
       options.tableName = 'SpotImages'
-      await queryInterface.createTable(options, {
+      await queryInterface.createTable('SpotImages', {
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -17,7 +17,7 @@ if(process.env.NODE_ENV === 'production') {
         },
         spotId: {
           type: Sequelize.INTEGER,
-          references: { model: 'Spots', key: 'id' },
+          references: { model: 'Spots' },
           allowNull: false,
           onDelete: 'CASCADE'
         },
@@ -25,7 +25,7 @@ if(process.env.NODE_ENV === 'production') {
           type: Sequelize.STRING,
           allowNull: false
         },
-        previewImg: {
+        previewImage: {
           type: Sequelize.BOOLEAN,
           allowNull: false
         },

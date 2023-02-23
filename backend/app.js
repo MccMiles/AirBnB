@@ -41,16 +41,10 @@ if (!isProduction) {
     })
   );
 
-
-
 // ...
 
 app.use(routes); // Connect all the routes
 
-// backend/app.js
-// ...
-
-// backend/app.js
 // ...
 // Catch unhandled requests and forward to error handler.
 app.use((_req, _res, next) => {
@@ -61,13 +55,11 @@ app.use((_req, _res, next) => {
   next(err);
 });
 
-// backend/app.js
 // ...
+// Process sequelize errors
+
 const { ValidationError } = require('sequelize');
 
-// ...
-
-// Process sequelize errors
 app.use((err, _req, _res, next) => {
   // check if error is a Sequelize error:
   if (err instanceof ValidationError) {

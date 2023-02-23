@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   class SpotImage extends Model {
 
     static associate(models) {
-      SpotImage.belongsTo(models.Spot, {foreignKey: 'spotId'})
+      SpotImage.belongsTo(models.Spot, { foreignKey: 'spotId' })
     }
   }
   SpotImage.init({
@@ -23,11 +23,16 @@ module.exports = (sequelize, DataTypes) => {
     previewImage: {
       type: DataTypes.BOOLEAN,
       allowNull: false
-    },
-
+    }
   }, {
     sequelize,
-    modelName: 'spotImage',
+    modelName: 'SpotImage',
+    defaultScope: {
+      attributes: {
+        exclude: [ 'spotId', 'createdAt', 'updatedAt' ]
+      }
+
+    }
   });
   return SpotImage;
 };

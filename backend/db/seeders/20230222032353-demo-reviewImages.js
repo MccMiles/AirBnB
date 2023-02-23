@@ -31,7 +31,7 @@ const ri = [
   {
     reviewId: 6,
     url: 'image.url'
-  },
+  }
 ]
 
 module.exports = {
