@@ -3,13 +3,10 @@ const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./user.js');
 const { restoreUser } = require("../../utils/auth.js");
-const siRouter = require('./spotImages.js');
-const riRouter = require('./reviewImages.js');
+// const siRouter = require('./spotImages.js');
+// const riRouter = require('./reviewImages.js');
 
 router.use(restoreUser);
-
-router.use('/review-images', reviewImageRouter);
-router.use('/spot-images', spotImageRouter);
 
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);

@@ -8,7 +8,7 @@ if(process.env.NODE_ENV === 'production') {
   module.exports = {
     async up(queryInterface, Sequelize) {
       options.tableName = 'SpotImages'
-      await queryInterface.createTable(options, {
+      await queryInterface.createTable('SpotImages', {
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
