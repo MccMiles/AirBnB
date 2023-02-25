@@ -6,9 +6,8 @@ const { User } = require('../../db/models');
 const { Spot } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { up } = require('../../db/seeders/20230120053909-demo-spot');
 const router = express.Router();
-
+// res.status(201).json(data);
 const validateSpot = [
     check('address')
     .exists({checkFalsy: true})
@@ -83,13 +82,15 @@ const validateQuery = [
 //Get All Spots
 
 router.get('/', async (req, res) =>{
-    let {page, size} = req.query;
+    let { page } = req.query;
+    let size = Number(req.query.size) || 20;
 
     page = Number(page);
     size = Number(size);
 
     if(Number.isNaN(page) || size < 0) page = 1;
-    if(Number.isNaN(size) || size < 0) size = 25;
+    if(Number.isNaN(size) || size < 0) size = 20;
+
 
     let allSpots = [ ];
 
@@ -112,12 +113,10 @@ router.get('/', async (req, res) =>{
     });
    
     for await(let spot of allSpots) {
-        const previewIs = await SpotImage.findOne({
-            where: { spotId: spot.id, preview: true } });
+        const previewImage = await SpotImage.findOne({
+            where: { spotId: spot.id, previewImage: true } });
 
-        if(previewIs) spot.dataValues.previewIs = previewIs.url
-
-        spot.dataValues.previewIs = null;
+        if(previewImage) spot.dataValues.previewImage = previewImage.url
 
         const data = await Review.findAll({
         where: { spotId: spot.id } })
@@ -167,12 +166,12 @@ router.get('/current', requireAuth, async(req, res) =>{
 
         for await(let spot of ownedSpots) {
 
-            const previewIs = await SpotImage.findOne({
+            const previewImage = await SpotImage.findOne({
             where: { spotId: spot.id, preview: true } });
 
-            if(previewIs)  spot.dataValues.previewIs = previewIs.url
+            if(previewImage)  spot.dataValues.previewImage = previewImage.url
 
-            spot.dataValues.previewIs = null;
+            spot.dataValues.previewImage = null;
             }
 
             const data = await Review.findAll({ where: { spotId: spot.id } });
@@ -220,14 +219,29 @@ router.get('/:spotId', async (req, res) => {
 
 //Create a Spot
 router.post('/', validateSpot, handleValidationErrors, async (req, res) => {
-
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
-
-    const spot = await Spot.create({ address, city, state, country, lat, lng, name, description, price, ownerId: req.user.id});
-
-    return res.json(spot);
-
-});
+  
+    try {
+      const spot = await Spot.create({ address, city, state, country, lat, lng, name, description, price, ownerId: req.user.id });
+      return res.json(spot);
+    } catch (error) {
+      if (error.name === 'ValidationError') {
+        // handle validation errors
+        return res.status(400).json({
+          message: 'Validation error',
+          statusCode: 400,
+          errors: error.errors,
+        });
+      } else {
+        // handle other errors
+        return res.status(401).json({
+          message: 'Invalid credentials',
+          statusCode: 401,
+        });
+      }
+    }
+  });
+  
 
 
 //Add an Image to a Spot based on Spot's id
