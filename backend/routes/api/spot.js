@@ -6,6 +6,7 @@ const { User } = require('../../db/models');
 const { Spot } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+
 const router = express.Router();
 // res.status(201).json(data);
 const validateSpot = [
@@ -220,27 +221,43 @@ router.get('/:spotId', async (req, res) => {
 //Create a Spot
 router.post('/', validateSpot, handleValidationErrors, async (req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
-  
-    try {
-      const spot = await Spot.create({ address, city, state, country, lat, lng, name, description, price, ownerId: req.user.id });
-      return res.json(spot);
-    } catch (error) {
-      if (error.name === 'ValidationError') {
-        // handle validation errors
-        return res.status(400).json({
-          message: 'Validation error',
-          statusCode: 400,
-          errors: error.errors,
-        });
-      } else {
-        // handle other errors
-        return res.status(401).json({
-          message: 'Invalid credentials',
-          statusCode: 401,
-        });
-      }
+    const userId = req.user.id
+    const errors = {}
+
+    if(!address || !city || !state || !country || !description || !price) {
+
+        res.status(400).json({
+            code: 400,
+            message: "Validation Error",
+            errors: {
+              address: "Street address is required",
+              city: "City is required",
+              state: "State is required",
+              country: "Country is required",
+              lat: "Latitude is not valid",
+              lng: "Longitude is not valid",
+              name: "Name must be less than 50 characters",
+              description: "Description is required",
+              price: "Price per day is required"
+            }
+          });
     }
-  });
+
+    const newSpot = await Spot.create({
+        ownerId: userId,
+        address: address,
+        city: city,
+        state: state,
+        country: country,
+        lat: lat,
+        lng: lng,
+        name: name,
+        description: description,
+        price: price
+    })
+    res.status(201).json({ newSpot: newSpot })
+})
+
   
 
 
