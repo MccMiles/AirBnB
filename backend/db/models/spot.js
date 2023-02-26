@@ -11,52 +11,67 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Spot.init({
-    ownerId:{
-    type: DataTypes.INTEGER,
-    },
+    ownerId:{ type: DataTypes.INTEGER },
     address: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true
+        notEmpty: { msg: "Street address is required" }
       }
     },
     city: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true
+        notEmpty: { msg: "City is required" }
       }
     },
     state: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true
+        notEmpty: { msg: "State is required" }
       }
     },
     country: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true
+        notEmpty: { msg: "Country is required" }
       }
     },
     lat: {
       type: DataTypes.FLOAT,
+      validate: {
+        isFloat: { msg: "Latitude is not valid" }
+      }
     },
     lng: {
-      type: DataTypes.FLOAT
+      type: DataTypes.FLOAT,
+      validate: {
+        isFloat: { msg: "Longitude is not valid" }
+      }
     },
     name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate: {
+        len: { args: [0, 50], msg: "Name must be less than 50 characters" }
+      }
     },
     description: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "Description is required" }
+      }
     },
     price: {
-      type: DataTypes.INTEGER
-    },
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Price per day is required' }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Spot',

@@ -57,20 +57,39 @@ module.exports = (sequelize, DataTypes) => {
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: {
+            msg: "First Name is required"
+          }
+        }
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Last Name is required"
+          }
+        }
       },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: {
+          args: true,
+          msg: "Username is already taken"
+        },
         validate: {
-          notEmpty: true,
-          len: [4, 30],
-          isNotEmail(v) {
+          notEmpty: {
+            msg: "Username is required"
+          },
+          len: {
+            args: [4, 30],
+            msg: "Username must be between 4 and 30 characters long"
+          },
+          isNotEmail: function (v) {
             if (Validator.isEmail(v)) {
-              throw new Error("Cannot be an email.")
+              throw new Error("Cannot be an email.");
             }
           }
         }
@@ -78,22 +97,33 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: {
+          args: true,
+          msg: "Email address is already registered"
+        },
         validate: {
-          len: [3, 256],
-          isEmail: true,
-          notEmpty: true,
+          notEmpty: {
+            msg: "Email is required"
+          },
+          len: {
+            args: [3, 256],
+            msg: "Email must be between 3 and 256 characters long"
+          },
+          isEmail: {
+            msg: "Invalid email"
+          }
         }
       },
       hashedPassword: {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
         validate: {
-          len: [60, 60]
+          notNull: { msg: "Password is required" },
+          len: { args: [60, 60] }
         }
       }
-    },
-    {
+      },
+      {
       sequelize,
       modelName: "User",
       defaultScope: {
@@ -101,6 +131,7 @@ module.exports = (sequelize, DataTypes) => {
           exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
         }
       },
+    
       scopes: {
         currentUser: {
           attributes: { exclude: ["hashedPassword"] }
@@ -113,3 +144,6 @@ module.exports = (sequelize, DataTypes) => {
   );
   return User;
 };
+
+
+
