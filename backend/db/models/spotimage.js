@@ -4,9 +4,16 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class SpotImage extends Model {
 
+    
     static associate(models) {
       SpotImage.belongsTo(models.Spot, { foreignKey: 'spotId' })
     }
+
+    static async newImage({ url, previewImage }) {
+      const img = await SpotImage.create({ url, previewImage });
+      return await SpotImage.findByPk(img.id)
+    }
+  
   }
   SpotImage.init({
     spotId: { 

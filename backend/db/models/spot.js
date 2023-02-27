@@ -5,13 +5,14 @@ module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     static associate(models) {
       Spot.belongsTo(models.User, { foreignKey: 'ownerId' });
-      Spot.hasMany(models.Booking, { foreignKey: 'spotId' });
-      Spot.hasMany(models.Review, { foreignKey: 'spotId' });
-      Spot.hasMany(models.SpotImage, { foreignKey: 'spotId' });
+      Spot.hasMany(models.Booking, { foreignKey: 'spotId', onDelete: "CASCADE" })
+      Spot.hasMany(models.Review, { foreignKey: 'spotId', onDelete: "CASCADE" } )
+      Spot.hasMany(models.SpotImage, { foreignKey: 'spotId', onDelete: "CASCADE" })
     }
   }
   Spot.init({
     ownerId:{ type: DataTypes.INTEGER },
+
     address: {
       type: DataTypes.STRING,
       allowNull: false,
