@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'production') {
         allowNull: false
       },
       stars: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DECIMAL,
         allowNull: false
       },
       createdAt: {

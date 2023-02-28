@@ -5,72 +5,46 @@ module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     static associate(models) {
       Spot.belongsTo(models.User, { foreignKey: 'ownerId' });
-      Spot.hasMany(models.Booking, { foreignKey: 'spotId' });
-      Spot.hasMany(models.Review, { foreignKey: 'spotId' });
-      Spot.hasMany(models.SpotImage, { foreignKey: 'spotId' });
+      Spot.hasMany(models.Booking, { foreignKey: 'spotId', onDelete: "CASCADE" })
+      Spot.hasMany(models.Review, { foreignKey: 'spotId', onDelete: "CASCADE" } )
+      Spot.hasMany(models.SpotImage, { foreignKey: 'spotId', onDelete: "CASCADE" })
     }
   }
   Spot.init({
     ownerId:{ type: DataTypes.INTEGER },
+
     address: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: { msg: "Street address is required" }
-      }
+      allowNull: false
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: { msg: "City is required" }
-      }
+      allowNull: false
     },
     state: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: { msg: "State is required" }
-      }
+      allowNull: false
     },
     country: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: { msg: "Country is required" }
-      }
+      allowNull: false
     },
     lat: {
-      type: DataTypes.FLOAT,
-      validate: {
-        isFloat: { msg: "Latitude is not valid" }
-      }
+      type: DataTypes.DECIMAL
     },
     lng: {
-      type: DataTypes.FLOAT,
-      validate: {
-        isFloat: { msg: "Longitude is not valid" }
-      }
+      type: DataTypes.DECIMAL
     },
     name: {
-      type: DataTypes.STRING,
-      validate: {
-        len: { args: [0, 50], msg: "Name must be less than 50 characters" }
-      }
+      type: DataTypes.STRING
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: { msg: "Description is required" }
-      }
+      allowNull: false
     },
     price: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: { msg: 'Price per day is required' }
-      }
+      type: DataTypes.DECIMAL,
+      allowNull: false
     }
   }, {
     sequelize,

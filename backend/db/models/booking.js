@@ -17,15 +17,14 @@
         type: DataTypes.DATE,
         allowNull: false,
         validate: {
-          message: "Validation Error",
-  
-          isAfterStartDate: function(currDate) {
-            if (currDate <= this.startDate) {
+          isAfterStartDate: function(inputDate) {
+            if (inputDate <= this.startDate) {
               throw new Error('endDate cannot be on or before startDate');
             }
           }
         }
       }
+      
     }, {
       sequelize,
       modelName: 'Booking',

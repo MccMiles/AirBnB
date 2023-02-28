@@ -35,8 +35,8 @@ const validateSignup = [
 router.post('/', validateSignup, async (req, res) => {
   const { firstName, lastName, email, username, password } = req.body;
 
-  const userWithEmail = await User.findOne({ where: { email } });
-  if (userWithEmail) {
+  const emailExists = await User.findOne({ where: { email } });
+  if (emailExists) {
     return res.status(403).json({
       message: 'User already exists',
       statusCode: 403,
@@ -45,8 +45,8 @@ router.post('/', validateSignup, async (req, res) => {
       },
     });
   } else {
-    const userWithUsername = await User.findOne({ where: { username } });
-    if (userWithUsername) {
+    const userExists = await User.findOne({ where: { username } });
+    if (userExists) {
       return res.status(403).json({
         message: 'User already exists',
         statusCode: 403,
