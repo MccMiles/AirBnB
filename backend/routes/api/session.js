@@ -4,8 +4,9 @@ const router = express.Router();
 
 const { User } = require('../../db/models');
 const { check } = require('express-validator');
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
+
 
 const validateLogin = [
   check('credential')
@@ -18,16 +19,51 @@ const validateLogin = [
   handleValidationErrors
 ];
 
+//Get Current User
+router.get('/', requireAuth, (req, res) => {
+  const { user } = req;
+  if (user) {
+    return res.status(200).json({
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      },
+    });
+  } else {
+    return res.status(401).json({ message: 'Not authenticated' });
+  }
+});
+
+
 // Log in
 router.post('/', validateLogin, async (req, res, next) => {
-    const { credential, password } = req.body;
-    const user = await User.login({ credential, password });
+  const { credential, password } = req.body;
 
-    if (!user) res.status(401).json({ message: 'Invalid credentials', statusCode: 401 })
-    await setTokenCookie(res, user);
+  const user = await User.login({ credential, password });
 
-    return res.json({user});
+  if (!user) {
+    const err = new Error('Login failed');
+    err.status = 401;
+    err.title = 'Login failed';
+    err.errors = ['The provided credentials were invalid.'];
+    return next(err);
+  }
+
+  await setTokenCookie(res, user);
+
+  return res.json({
+    user: {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
+    },
   });
+});
 
 //Log out
 router.delete('/', (_req, res) => {
