@@ -158,7 +158,7 @@ router.get('/', async (req, res) =>{
       });
     
       if (previewImage) spot.dataValues.previewImage = previewImage.url;
-      
+
     }
       return res.json({ Spots, page, size });
       
@@ -252,7 +252,7 @@ router.get('/:spotId', async (req, res) => {
             SpotImages: selected.SpotImages.map(image => ({
                 id: image.id,
                 url: image.url,
-                preview: image.preview
+                preview: image.previewImage
             })),
             Owner: {
                 id: selected.User.id,
