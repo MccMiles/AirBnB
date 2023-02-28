@@ -160,6 +160,8 @@ router.get('/', async (req, res) =>{
       if (previewImage) spot.dataValues.previewImage = previewImage.url;
 
     }
+
+        
       return res.json({ Spots, page, size });
       
 });
@@ -321,7 +323,7 @@ router.post('/', requireAuth, async (req, res, next) => {
         description: description,
         price: price
     })
-    res.status(201).json({ newSpot: spot })
+    res.status(201).json( spot )
 })
 
 
