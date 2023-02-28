@@ -152,14 +152,14 @@ router.get('/', async (req, res) =>{
         } else {
           spot.dataValues.avgRating = null;
         }
-      }
-
+      
       const previewImage = await SpotImage.findOne({
         where: { spotId: spot.id, previewImage: true },
       });
     
       if (previewImage) spot.dataValues.previewImage = previewImage.url;
       
+    }
       return res.json({ Spots, page, size });
       
 });
