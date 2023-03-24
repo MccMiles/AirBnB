@@ -1,6 +1,8 @@
 //FRONTEND
 npm install js-cookie react-redux react-router-dom@^5 redux redux-thunk
 npm install -D redux-logger
+npm --prefix backend install backend && npm --prefix frontend install frontend
+npm run build --prefix frontend
 
 
 
