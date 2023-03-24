@@ -1,10 +1,21 @@
+//FRONTEND
+npm install js-cookie react-redux react-router-dom@^5 redux redux-thunk
+npm install -D redux-logger
+
+
+
+
+
+
+
+//BACKEND
 npx sequelize-cli model:generate --name spotImage --attributes spotId:integer,url:string,previewImage:boolean
 
 npx sequelize-cli model:generate --name reviewImage --attributes reviewId:integer,url:string
 
 npx sequelize-cli model:generate --name spot --attributes ownerId:integer,address:string,city:string,state:string,country:string,lat:float,lng:float,name:string,description:string,price:integer
 
-npx sequelize-cli model:generate --name review --attributes userId:integer,spotId:integer,review:string,stars:decimal
+npx sequelize-cli model:generate --name review --attributes userId:integer,spotId:integer,review:string,stars:integer
 
 npx sequelize-cli model:generate --name booking --attributes spotId:integer,userId:integer,startDate:date,endDate:DATE
 

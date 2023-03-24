@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/MccMiles/AirBnB/issues"
   },
-  "homepage": "https://github.com/MccMiles/AirBnB#readme"
+  "homepage": "https://github.com/MccMiles/AirBnB#readme",
+  "dependencies": {
+    "sequelize": "^6.29.0"
+  }
 }
