@@ -4,7 +4,8 @@ npm install -D redux-logger
 npm --prefix backend install backend && npm --prefix frontend install frontend
 npm run build --prefix frontend
 
-
+new Render scripts
+npm install && npm run render-postbuild && npm run build && npm run sequelize --prefix backend db:migrate && npm run sequelize --prefix backend db:seed:all
 
 
 
