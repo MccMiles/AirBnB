@@ -1,48 +1,48 @@
-// frontend/src/components/LoginFormPage/index.js
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
-function LoginFormPage() {
+
+function LoginFormModal() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
-
-  if (sessionUser) return <Redirect to="/" />;
+  const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password })).catch(
-      async (res) => {
+    return dispatch(sessionActions.login({ credential, password }))
+      .then(closeModal)
+      .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
-      }
-    );
+      });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <ul>
+    <form className="login-form__form" onSubmit={handleSubmit}>
+      <ul className="login-form__errors">
         {errors.map((error, idx) => (
           <li key={idx}>{error}</li>
         ))}
       </ul>
-      <label>
+      <label className="login-form__label">
         Username or Email
         <input
+          className="login-form__input"
           type="text"
           value={credential}
           onChange={(e) => setCredential(e.target.value)}
           required
         />
       </label>
-      <label>
+      <label className="login-form__label">
         Password
         <input
+          className="login-form__input"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -54,4 +54,4 @@ function LoginFormPage() {
   );
 }
 
-export default LoginFormPage;
+export default LoginFormModal;

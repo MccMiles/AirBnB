@@ -1,12 +1,13 @@
-// frontend/src/components/SignupFormPage/index.js
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
-import * as sessionActions from "../../store/session";
+import { useDispatch } from "react-redux";
 
-function SignupFormPage() {
+import * as sessionActions from "../../store/session";
+import "./SignupForm.css";
+import { useModal } from "../../context/Modal";
+
+function SignupFormModal() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -15,7 +16,7 @@ function SignupFormPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
-  if (sessionUser) return <Redirect to="/" />;
+  const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,10 +30,12 @@ function SignupFormPage() {
           lastName,
           password,
         })
-      ).catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
+      )
+        .then(closeModal)
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) setErrors(data.errors);
+        });
     }
     return setErrors([
       "Confirm Password field must be the same as the Password field",
@@ -40,69 +43,79 @@ function SignupFormPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <ul>
+    <form className="signup-form" onSubmit={handleSubmit}>
+      <ul className="errors-list">
         {errors.map((error, idx) => (
-          <li key={idx}>{error}</li>
+          <li className="error" key={idx}>
+            {error}
+          </li>
         ))}
       </ul>
-      <label>
+      <label className="signup-label">
         Email
         <input
+          className="signup-input"
           type="text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
       </label>
-      <label>
+      <label className="signup-label">
         Username
         <input
+          className="signup-input"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
       </label>
-      <label>
+      <label className="signup-label">
         First Name
         <input
+          className="signup-input"
           type="text"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           required
         />
       </label>
-      <label>
+      <label className="signup-label">
         Last Name
         <input
+          className="signup-input"
           type="text"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           required
         />
       </label>
-      <label>
+      <label className="signup-label">
         Password
         <input
+          className="signup-input"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
       </label>
-      <label>
+      <label className="signup-label">
         Confirm Password
         <input
+          className="signup-input"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
       </label>
-      <button type="submit">Sign Up</button>
+      <button className="signup-btn" type="submit">
+        Sign Up
+      </button>
     </form>
   );
 }
 
-export default SignupFormPage;
+export default SignupFormModal;
