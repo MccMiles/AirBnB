@@ -19,7 +19,7 @@ function Navigation({ isLoaded }) {
     );
   } else {
     sessionLinks = (
-      <li className="nav-buttons">
+      <li>
         <OpenModalButton
           buttonText="Log In"
           modalComponent={<LoginFormModal />}
@@ -33,9 +33,9 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <ul className="nav-container">
-      <li className="nav-item">
-        <NavLink exact to="/" className="nav-link">
+    <ul>
+      <li>
+        <NavLink exact to="/">
           Home
         </NavLink>
       </li>

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import * as sessionActions from "../../store/session";
-import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import * as sessionActions from "../../store/session";
+import { useModal } from "../../context/Modal";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ function LoginFormModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password }))
+    return dispatch(sessionActions.loginThunk({ credential, password }))
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
@@ -23,26 +23,24 @@ function LoginFormModal() {
   };
 
   return (
-    <form className="login-form__form" onSubmit={handleSubmit}>
-      <ul className="login-form__errors">
+    <form onSubmit={handleSubmit} className="login-modal">
+      <ul>
         {errors.map((error, idx) => (
           <li key={idx}>{error}</li>
         ))}
       </ul>
-      <label className="login-form__label">
-        Username or Email
+      <label>
+        Username or Email:
         <input
-          className="login-form__input"
           type="text"
           value={credential}
           onChange={(e) => setCredential(e.target.value)}
           required
         />
       </label>
-      <label className="login-form__label">
-        Password
+      <label>
+        Password:
         <input
-          className="login-form__input"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -53,5 +51,4 @@ function LoginFormModal() {
     </form>
   );
 }
-
 export default LoginFormModal;
