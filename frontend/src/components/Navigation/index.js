@@ -1,10 +1,13 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import ProfileButton from "./ProfileButton";
-import OpenModalButton from "../OpenModalButton";
+import { NavLink } from "react-router-dom";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import ProfileButton from "./ProfileButton";
+import OpenModalButton from "../OpenModalButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAirbnb } from "@fortawesome/free-brands-svg-icons";
+
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
@@ -23,25 +26,26 @@ function Navigation({ isLoaded }) {
         <OpenModalButton
           buttonText="Log In"
           modalComponent={<LoginFormModal />}
+          className="login-modal"
         />
         <OpenModalButton
           buttonText="Sign Up"
           modalComponent={<SignupFormModal />}
+          className="signup-modal"
         />
       </li>
     );
   }
-
   return (
     <ul>
-      <li>
+      <li style={{ position: "relative" }}>
         <NavLink exact to="/">
-          Home
+          <FontAwesomeIcon icon={faAirbnb} style={{ color: "#ff5a5f" }} />{" "}
+          airbbbnnnbbb
         </NavLink>
       </li>
       {isLoaded && sessionLinks}
     </ul>
   );
 }
-
 export default Navigation;

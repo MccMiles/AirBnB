@@ -4,6 +4,7 @@ import { Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import ShowSpots from "./components/ShowSpots";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+      <ShowSpots isLoaded={isLoaded} />
       {isLoaded && <Switch></Switch>}
     </>
   );
