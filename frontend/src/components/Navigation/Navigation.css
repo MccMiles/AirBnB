@@ -1,6 +1,49 @@
-.hidden {
-  display: none;
+ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  border-bottom: 1px solid #484848;
+  height: 60px;
 }
+
+li {
+  margin-right: 10px;
+}
+
+li:last-child {
+  margin-right: 0;
+}
+
+.home-logo {
+  height: 40px;
+  width: 128px;
+}
+
+.signup-modal {
+  background-color: #ff5a5f;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.signup-modal:hover {
+  background-color: #ff4b4f;
+}
+
+.login-modal:hover,
+.signup-modal:hover {
+  background-color: #ddd;
+}
+
 .nav-link {
   color: #ff5a5f;
 }
@@ -14,58 +57,6 @@
   margin-left: 5px;
 }
 
-ul {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  background-color: #fff;
-  border-bottom: 1px solid #ddd;
-  height: 60px;
-}
-
-li {
-  margin-right: 10px;
-}
-
-li:last-child {
-  margin-right: 0;
-}
-
-a {
-  text-decoration: none;
-  color: #333;
-}
-
-.login-modal,
-.signup-modal {
-  background-color: #fff;
-  border: none;
-  color: #333;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-.login-modal:hover,
-.signup-modal:hover {
-  background-color: #ddd;
-}
-
-.login-modal {
-  margin-right: 10px;
-}
-
-.signup-modal {
-  background-color: #ff5a5f;
-  color: #fff;
-}
-
-.signup-modal:hover {
-  background-color: #ff4b4f;
+.hidden {
+  display: none;
 }

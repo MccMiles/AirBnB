@@ -18,15 +18,21 @@ function LoginFormModal() {
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
+        if (data && data.message) {
+          setErrors([...errors, data.message]);
+        } else {
+          setErrors([...errors, "Something went wrong. Please try again."]);
+        }
       });
   };
 
   return (
     <form onSubmit={handleSubmit} className="login-modal">
-      <ul>
+      <ul className="error-list">
         {errors.map((error, idx) => (
-          <li key={idx}>{error}</li>
+          <li key={idx} className="error">
+            {error}
+          </li>
         ))}
       </ul>
       <label>
@@ -48,7 +54,11 @@ function LoginFormModal() {
         />
       </label>
       <button type="submit">Log In</button>
+      <div>
+        <a href="/demo-user">Login as Demo</a>
+      </div>
     </form>
   );
 }
+
 export default LoginFormModal;
