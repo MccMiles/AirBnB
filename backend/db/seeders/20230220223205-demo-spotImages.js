@@ -51,3 +51,4 @@ module.exports = {
     await queryInterface.bulkDelete(options, si);
   },
 };
+//
