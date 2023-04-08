@@ -1,58 +1,54 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 
-let options = { };
-if (process.env.NODE_ENV === 'production') {
+let options = {};
+if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA;
 }
 
-const si = 
-[
+const si = [
   {
     spotId: 1,
-    url: 'Image.url',
-    previewImage: true
+    url: "https://source.unsplash.com/random/?beachfront,property",
+    previewImage: true,
   },
   {
     spotId: 2,
-    url: 'Image.url',
-    previewImage: true
+    url: "https://source.unsplash.com/random/?apartments,skyline",
+    previewImage: true,
   },
   {
     spotId: 3,
-    url: 'Image.url',
-    previewImage: true
+    url: "https://source.unsplash.com/random/?highrise,apartment",
+    previewImage: true,
   },
   {
     spotId: 4,
-    url: 'Image.url',
-    previewImage: true
+    url: "https://source.unsplash.com/random/?contemporary,loft,apartment",
+    previewImage: true,
   },
   {
     spotId: 5,
-    url: 'Image.url',
-    previewImage: true
+    url: "https://source.unsplash.com/random/?wilderness,cabin",
+    previewImage: true,
   },
   {
     spotId: 6,
-    url: 'Image.url',
-    previewImage: true
+    url: "https://source.unsplash.com/random/?rural,mountain,home",
+    previewImage: true,
   },
-]
-  
-
+];
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
-
-    options.tableName = 'SpotImages'
-    await queryInterface.bulkInsert(options, si)
+  async up(queryInterface, Sequelize) {
+    options.tableName = "SpotImages";
+    await queryInterface.bulkInsert(options, si);
   },
 
-  async down (queryInterface, Sequelize) {
-
-    options.tableName = 'SpotImages'
-    await queryInterface.bulkDelete(options, si)
-  }
+  async down(queryInterface, Sequelize) {
+    options.tableName = "SpotImages";
+    await queryInterface.bulkDelete(options, si);
+  },
 };
+//
