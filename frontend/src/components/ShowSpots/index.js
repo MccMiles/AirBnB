@@ -11,7 +11,11 @@ function ShowSpots({ isLoaded }) {
   }, [dispatch]);
 
   if (!spots) {
-    return <div>Loading...</div>;
+    return (
+      <div style={{ fontSize: "20px", fontWeight: "bold", marginTop: "47px" }}>
+        Loading...
+      </div>
+    );
   }
 
   return (

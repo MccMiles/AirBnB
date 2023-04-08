@@ -5,8 +5,9 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import ProfileButton from "./ProfileButton";
 import OpenModalButton from "../OpenModalButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAirbnb } from "@fortawesome/free-brands-svg-icons";
+import logo from "../../images/Airbnb_logo_PNG3.png";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faAirbnb } from "@fortawesome/free-brands-svg-icons";
 
 import "./Navigation.css";
 
@@ -40,8 +41,7 @@ function Navigation({ isLoaded }) {
     <ul>
       <li style={{ position: "relative" }}>
         <NavLink exact to="/">
-          <FontAwesomeIcon icon={faAirbnb} style={{ color: "#ff5a5f" }} />{" "}
-          airbbbnnnbbb
+          <img className="home-logo" src={logo} alt="return to home" />
         </NavLink>
       </li>
       {isLoaded && sessionLinks}

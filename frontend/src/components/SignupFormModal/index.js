@@ -43,10 +43,10 @@ function SignupFormModal() {
   };
 
   return (
-    <form className="signup-form" onSubmit={handleSubmit}>
-      <ul className="errors-list">
+    <form className="signup-form-modal" onSubmit={handleSubmit}>
+      <ul className="signup-errors-list">
         {errors.map((error, idx) => (
-          <li className="error" key={idx}>
+          <li className="signup-error" key={idx}>
             {error}
           </li>
         ))}
