@@ -23,23 +23,32 @@ const validateLogin = [
 ];
 
 // Get Current User
-router.get("/", requireAuth, (req, res) => {
+// router.get("/", requireAuth, (req, res) => {
+//   const { user } = req;
+//   if (!user) {
+//     return res.status(200).json({
+//       user: null,
+//     });
+//   } else {
+//     return res.status(200).json({
+//       user: {
+//         id: user.id,
+//         firstName: user.firstName,
+//         lastName: user.lastName,
+//         email: user.email,
+//         username: user.username,
+//       },
+//     });
+//   }
+// });
+
+router.get("/", restoreUser, (req, res) => {
   const { user } = req;
-  if (!user) {
-    return res.status(200).json({
-      user: null,
+  if (user) {
+    return res.json({
+      user: user.toSafeObject(),
     });
-  } else {
-    return res.status(200).json({
-      user: {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        username: user.username,
-      },
-    });
-  }
+  } else return res.json({});
 });
 
 // Log in
