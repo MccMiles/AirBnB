@@ -43,6 +43,7 @@ npx sequelize-cli seed:generate --name review-seeders//
 
 npx dotenv sequelize db:seed:all
 npx dotenv sequelize db:migrate
+npx sequelize-cli db:migrate:status
 
 
 
