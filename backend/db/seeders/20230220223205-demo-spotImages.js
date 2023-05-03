@@ -14,9 +14,49 @@ const si = [
     previewImage: true,
   },
   {
+    spotId: 1,
+    url: "https://source.unsplash.com/random/?beachfront,property",
+    previewImage: false,
+  },
+  {
+    spotId: 1,
+    url: "https://source.unsplash.com/random/?beachfront,property",
+    previewImage: false,
+  },
+  {
+    spotId: 1,
+    url: "https://source.unsplash.com/random/?beachfront,property",
+    previewImage: false,
+  },
+  {
+    spotId: 1,
+    url: "https://source.unsplash.com/random/?beachfront,property",
+    previewImage: false,
+  },
+  {
     spotId: 2,
     url: "https://source.unsplash.com/random/?apartments,skyline",
     previewImage: true,
+  },
+  {
+    spotId: 2,
+    url: "https://source.unsplash.com/random/?apartments,skyline",
+    previewImage: false,
+  },
+  {
+    spotId: 2,
+    url: "https://source.unsplash.com/random/?apartments,skyline",
+    previewImage: false,
+  },
+  {
+    spotId: 2,
+    url: "https://source.unsplash.com/random/?apartments,skyline",
+    previewImage: false,
+  },
+  {
+    spotId: 2,
+    url: "https://source.unsplash.com/random/?apartments,skyline",
+    previewImage: false,
   },
   {
     spotId: 3,
@@ -24,9 +64,49 @@ const si = [
     previewImage: true,
   },
   {
+    spotId: 3,
+    url: "https://source.unsplash.com/random/?highrise,apartment",
+    previewImage: false,
+  },
+  {
+    spotId: 3,
+    url: "https://source.unsplash.com/random/?highrise,apartment",
+    previewImage: false,
+  },
+  {
+    spotId: 3,
+    url: "https://source.unsplash.com/random/?highrise,apartment",
+    previewImage: false,
+  },
+  {
+    spotId: 3,
+    url: "https://source.unsplash.com/random/?highrise,apartment",
+    previewImage: false,
+  },
+  {
     spotId: 4,
     url: "https://source.unsplash.com/random/?contemporary,loft,apartment",
     previewImage: true,
+  },
+  {
+    spotId: 4,
+    url: "https://source.unsplash.com/random/?contemporary,loft,apartment",
+    previewImage: false,
+  },
+  {
+    spotId: 4,
+    url: "https://source.unsplash.com/random/?contemporary,loft,apartment",
+    previewImage: false,
+  },
+  {
+    spotId: 4,
+    url: "https://source.unsplash.com/random/?contemporary,loft,apartment",
+    previewImage: false,
+  },
+  {
+    spotId: 4,
+    url: "https://source.unsplash.com/random/?contemporary,loft,apartment",
+    previewImage: false,
   },
   {
     spotId: 5,
@@ -34,9 +114,49 @@ const si = [
     previewImage: true,
   },
   {
+    spotId: 5,
+    url: "https://source.unsplash.com/random/?wilderness,cabin",
+    previewImage: false,
+  },
+  {
+    spotId: 5,
+    url: "https://source.unsplash.com/random/?wilderness,cabin",
+    previewImage: false,
+  },
+  {
+    spotId: 5,
+    url: "https://source.unsplash.com/random/?wilderness,cabin",
+    previewImage: false,
+  },
+  {
+    spotId: 5,
+    url: "https://source.unsplash.com/random/?wilderness,cabin",
+    previewImage: false,
+  },
+  {
     spotId: 6,
     url: "https://source.unsplash.com/random/?rural,mountain,home",
     previewImage: true,
+  },
+  {
+    spotId: 6,
+    url: "https://source.unsplash.com/random/?rural,mountain,home",
+    previewImage: false,
+  },
+  {
+    spotId: 6,
+    url: "https://source.unsplash.com/random/?rural,mountain,home",
+    previewImage: false,
+  },
+  {
+    spotId: 6,
+    url: "https://source.unsplash.com/random/?rural,mountain,home",
+    previewImage: false,
+  },
+  {
+    spotId: 6,
+    url: "https://source.unsplash.com/random/?rural,mountain,home",
+    previewImage: false,
   },
 ];
 
