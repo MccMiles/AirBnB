@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { Provider as ReduxProvider } from "react-redux";
+import { Provider } from "react-redux";
 import App from "./App";
 import "./index.css";
 import { restoreCSRF, csrfFetch } from "./store/csrf";
@@ -28,12 +28,12 @@ if (process.env.NODE_ENV !== "production") {
 function Root() {
   return (
     <ModalProvider>
-      <ReduxProvider store={store}>
+      <Provider store={store}>
         <BrowserRouter>
           <App />
           <Modal />
         </BrowserRouter>
-      </ReduxProvider>
+      </Provider>
     </ModalProvider>
   );
 }
