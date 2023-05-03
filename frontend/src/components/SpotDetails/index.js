@@ -1,31 +1,25 @@
-unsplash.com
-fontawesome.com
-
-
-
- 
 import { useParams } from "react-router-dom";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { spotsActions } from "../../store/spots";
+import { spotActions } from "../../store/spots";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 import { faStarHalfAlt as halfStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as fullStar } from "@fortawesome/free-solid-svg-icons";
 
-function SpotDetails({ isLoaded }) {
+function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const currentSpot = useSelector((state) => state.spots.spotDetails);
 
   function reserveSpot(e) {
     e.preventDefault();
-    window.alert("NULL");
+    window.alert("feature coming soon!");
   }
 
   useEffect(() => {
-    dispatch(spotsActions.fetchSpotDetails(spotId));
+    dispatch(spotActions.fetchSpotDetailsById(spotId));
   }, [dispatch, spotId]);
 
   const renderStars = (avgRating) => {
@@ -37,6 +31,11 @@ function SpotDetails({ isLoaded }) {
       stars.push(
         <FontAwesomeIcon key={i} icon={fullStar} style={{ color: "#fc642d" }} />
       );
+    }
+
+    if (avgRating === 5.0) {
+      // Render only full stars if the rating is exactly 5.0
+      return stars;
     }
 
     const remainder = avgRating - wholeStars;
@@ -80,52 +79,30 @@ function SpotDetails({ isLoaded }) {
     return stars;
   };
 
-  return isLoaded && currentSpot ? (
-    <div>
-      <h1>Spot Details</h1>
-      <p>{currentSpot.name}</p>
-      <p>
-        {currentSpot.city}, {currentSpot.state}, {currentSpot.country}
-      </p>
-      {currentSpot.SpotImages.map((image) => (
+  return (
+    currentSpot && (
+      <div>
+        <h1>Spot Details</h1>
+        <p>{currentSpot.name}</p>
+        <p>
+          {currentSpot.city}, {currentSpot.state}, {currentSpot.country}
+        </p>
+        {/* {currentSpot.spotImages.map((image) => (
         <img
           src={image.url}
           alt={currentSpot.name}
           key={image.id}
           style={{ height: "300px", width: "300px" }}
         />
-      ))}
-      <p>{currentSpot.description}</p>
-
-      <div className="reserve-container">
-        <p>${currentSpot.price} night</p>
-        <button onClick={reserveSpot}>Reserve</button>
-        {currentSpot.avgStarRating === null ? (
-          <p className="spot-new">New</p>
-        ) : (
-          <div className="stars-container">
-            {renderStars(currentSpot.avgStarRating)}
-            {currentSpot.avgStarRating}
-          </div>
-        )}
+      ))} */}
+        <p>
+          <b>Rating:</b> {currentSpot.averageRating}
+        </p>
+        <div>{renderStars(currentSpot.averageRating)}</div>
+        <button onClick={reserveSpot}>Reserve this Spot</button>
       </div>
-      {currentSpot.numReviews === 0 ? (
-        <p>No reviews</p>
-      ) : (
-        <div>
-          <h2>Reviews</h2>
-          {currentSpot.SpotReviews.map((review) => (
-            <div key={review.id}>
-              <p>{review.title}</p>
-          
-              {renderStars(review.rating)}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  ) : (
-    <h1>Loading...</h1>
+    )
   );
 }
+
 export default SpotDetails;
