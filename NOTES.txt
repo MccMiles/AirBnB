@@ -129,3 +129,12 @@ function SpotDetails({ isLoaded }) {
   );
 }
 export default SpotDetails;
+
+
+//
+
+
+  function reserveSpot(e) {
+    e.preventDefault();
+    window.alert("feature coming soon!");
+  }
