@@ -41,6 +41,7 @@ npx sequelize-cli seed:generate --name demo-reviewImages//
 npx sequelize-cli seed:generate --name demo-spotImages//
 npx sequelize-cli seed:generate --name review-seeders//
 
+npx dotenv sequelize-cli db:seed:all
 npx dotenv sequelize db:seed:all
 npx dotenv sequelize db:migrate
 npx dotenv sequelize-cli db:migrate:status

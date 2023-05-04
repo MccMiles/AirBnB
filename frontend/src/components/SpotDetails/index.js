@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { spotActions } from "../../store/spots";
 import { fetchReviews } from "../../store/reviews";
+import { useParams } from "react-router-dom";
 
 function SpotDetails() {
   const dispatch = useDispatch();
+  const { spotId } = useParams();
   const currentSpot = useSelector((state) => state.spots.spotDetails);
   const reviews = useSelector((state) => Object.values(state.reviews));
-  const avgRating = calculateAvgRating(reviews);
 
   function handleReserve(e) {
     e.preventDefault();
@@ -15,19 +16,9 @@ function SpotDetails() {
   }
 
   useEffect(() => {
-    dispatch(spotActions.fetchSpotDetailsById(currentSpot.id));
-    dispatch(fetchReviews(currentSpot.id));
-  }, [dispatch, currentSpot.id]);
-
-  function calculateAvgRating(reviews) {
-    if (reviews.length === 0) {
-      return NaN;
-    }
-    const totalRating = reviews.reduce((acc, review) => {
-      return acc + review.rating;
-    }, 0);
-    return totalRating / reviews.length;
-  }
+    dispatch(spotActions.fetchSpotDetailsById(spotId));
+    dispatch(fetchReviews(spotId));
+  }, [dispatch, spotId]);
 
   return currentSpot ? (
     <div className="spotdetail-container">
@@ -60,60 +51,20 @@ function SpotDetails() {
               : currentSpot.price}{" "}
             night
           </p>
-          {isNaN(avgRating) ? (
-            <p className="fa-solid fa-star">New</p>
-          ) : (
-            <div
-              className="stars-container"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <p className="fa-solid fa-star">{avgRating.toFixed(1)}</p>
-              <p>&nbsp;&middot;&nbsp;</p>
-              <h2>
-                {reviews.length} {reviews.length === 1 ? "review" : "reviews"}
-              </h2>
-            </div>
-          )}
+          <div
+            className="stars-container"
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <p className="fa-solid fa-star"></p>
+            <p>&nbsp;&middot;&nbsp;</p>
+            <h2>
+              {reviews.length} {reviews.length === 1 ? "review" : "reviews"}
+            </h2>
+          </div>
           <button onClick={handleReserve} className="reserve-button">
             Reserve
           </button>
         </div>
-      </div>
-
-      <div className="review-count">
-        {reviews.length === 0 ? (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              wordSpacing: "5px",
-            }}
-          >
-            <p className="fa-solid fa-star">New</p>
-          </div>
-        ) : (
-          <div className="reviews">
-            {isNaN(avgRating) ? (
-              <p className="fa-solid fa-star">New</p>
-            ) : (
-              <div
-                className="stars-container"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <p className="fa-solid fa-star">{avgRating.toFixed(1)}</p>
-                <p>&nbsp;&middot;&nbsp;</p>
-                <h2>
-                  {reviews.length} {reviews.length === 1 ? "review" : "reviews"}
-                </h2>
-              </div>
-            )}
-          </div>
-        )}
       </div>
     </div>
   ) : null;
