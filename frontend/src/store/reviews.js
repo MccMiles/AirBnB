@@ -1,84 +1,86 @@
 import { csrfFetch } from "./csrf";
 
-const initialState = {};
-
-export const fetchReviews = (spotId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(setReviews(data.Reviews));
-  }
+const initialState = {
+  reviews: {},
 };
 
-const SPOT_REVIEWS = "reviews/SPOT_REVIEWS";
-const POST_REVIEW = "reviews/POST_REVIEW";
-const DELETE_REVIEW = "reviews/DELETE_REVIEW";
+export const reviewActions = {
+  setReviews: (reviews) => ({
+    type: "reviews/setReviews",
+    payload: reviews,
+  }),
 
-export const setReviews = (reviews) => ({
-  type: SPOT_REVIEWS,
-  reviews,
-});
+  createReview: (review) => ({
+    type: "reviews/createReview",
+    payload: review,
+  }),
 
-export const createReview = (review) => ({
-  type: POST_REVIEW,
-  review,
-});
+  deleteReview: (reviewId) => ({
+    type: "reviews/deleteReview",
+    payload: reviewId,
+  }),
 
-export const deleteReview = (reviewId) => ({
-  type: DELETE_REVIEW,
-  reviewId,
-});
+  fetchReviews: (spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(reviewActions.setReviews(data.Reviews));
+    }
+  },
 
-export const postReview = (spotId, review) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(review),
-  });
-  if (response.ok) {
-    const newReview = await response.json();
-    dispatch(createReview(newReview));
-    return newReview;
-  } else {
-    const data = await response.json();
-    return data;
-  }
+  postReview: (spotId, review) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(review),
+    });
+    if (response.ok) {
+      const newReview = await response.json();
+      dispatch(reviewActions.createReview(newReview));
+      return newReview;
+    } else {
+      const data = await response.json();
+      return data;
+    }
+  },
+
+  deleteReviewThunk: (reviewId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const deletedReview = await response.json();
+    dispatch(reviewActions.deleteReview(deletedReview.reviewId));
+    return deletedReview;
+  },
 };
 
-export const deleteReviewThunk = (reviewId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const deletedReview = await response.json();
-  dispatch(deleteReview(deletedReview.reviewId));
-  return deletedReview;
-};
-
-const reviewReducer = (state = initialState, action) => {
-  let newState = { ...state };
+const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SPOT_REVIEWS:
-      let normalizedReviews = {};
-
-      action.reviews.forEach((review) => {
+    case "reviews/setReviews":
+      const normalizedReviews = {};
+      action.payload.forEach((review) => {
         normalizedReviews[review.id] = review;
       });
-      newState = normalizedReviews;
-      return newState;
-    case POST_REVIEW:
-      newState.reviews[action.review.id] = action.review;
-      return newState;
-    case DELETE_REVIEW:
-      delete newState.reviews[action.reviewId];
-      return newState;
+      return { ...state, reviews: normalizedReviews };
+
+    case "reviews/createReview":
+      return {
+        ...state,
+        reviews: { ...state.reviews, [action.payload.id]: action.payload },
+      };
+
+    case "reviews/deleteReview":
+      const { [action.payload]: deletedReview, ...rest } = state.reviews;
+      return { ...state, reviews: rest };
+
     default:
       return state;
   }
 };
 
-export default reviewReducer;
+export default reviewsReducer;

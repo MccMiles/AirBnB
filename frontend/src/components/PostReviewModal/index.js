@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import * as reviewActions from "../../store/reviews";
+import { reviewActions } from "../../store/reviews";
+
 import { useSelector, useDispatch } from "react-redux";
 
-import "./PostReview.css";
+import "./PostReviewModal.css";
 
 import { useModal } from "../../context/Modal";
 
@@ -30,7 +31,10 @@ const PostReviewModal = () => {
     };
 
     await dispatch(reviewActions.postReview(spot.id, newReview))
-      .then(closeModal)
+      .then(() => {
+        dispatch(reviewActions.fetchReviews(spot.id));
+        closeModal();
+      })
       .catch((error) => {
         setErrors({ ...errors, errors: "Review already exists for this spot" });
       });

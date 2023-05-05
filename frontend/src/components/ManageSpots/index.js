@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { spotActions } from "../../store/spots";
-import "./SpotManagement.css";
+import "./ManageSpot.css";
 import OpenModalButton from "../OpenModalButton";
 import { Link } from "react-router-dom";
 import ConfirmDelete from "../DeleteModal";

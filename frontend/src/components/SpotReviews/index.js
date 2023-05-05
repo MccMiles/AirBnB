@@ -16,6 +16,17 @@ const SpotReviews = () => {
   const { spotId } = useParams();
   const [loading, setLoading] = useState(true);
 
+  // Destructure currentSpot object
+  const {
+    country = "",
+    city = "",
+    state = "",
+    address = "",
+    description = "",
+    price = "",
+    name = "",
+  } = spot || {};
+
   useEffect(() => {
     const fetchData = async () => {
       await Promise.all([
@@ -46,10 +57,10 @@ const SpotReviews = () => {
 
   if (reviews.length > 0 && spot && user && user.id !== spot.Owner.id) {
     return (
-      <div className="review-container">
+      <div className="review-box">
         {renderPostReview()}
         {reviews.map((review) => (
-          <div key={review.id} className="solo-review">
+          <div key={review.id} className="each-review">
             <p>{review.User.firstName}</p>
             <p>
               {new Date(review.createdAt).toLocaleString("en-us", {
@@ -77,7 +88,7 @@ const SpotReviews = () => {
     user.id !== spot.Owner.id
   ) {
     return (
-      <div className="review-container">
+      <div className="review-box">
         <p>Be the first to post a review!</p>
         {renderPostReview()}
       </div>

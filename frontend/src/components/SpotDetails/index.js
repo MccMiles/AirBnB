@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { spotActions } from "../../store/spots";
-import { fetchReviews } from "../../store/reviews";
+import { reviewActions } from "../../store/reviews";
+
 import { useParams } from "react-router-dom";
 import "./SpotDetails.css";
 
@@ -18,7 +19,7 @@ function SpotDetails() {
 
   useEffect(() => {
     dispatch(spotActions.fetchSpotDetailsById(spotId));
-    dispatch(fetchReviews(spotId));
+    dispatch(reviewActions.fetchReviews(spotId));
   }, [dispatch, spotId]);
 
   let spotImages = null;
@@ -31,7 +32,7 @@ function SpotDetails() {
   }
 
   return currentSpot ? (
-    <div className="spotdetail-container">
+    <div className="spot-box">
       <h1>{currentSpot.name}</h1>
       <p className="location">
         {currentSpot.city}, {currentSpot.state}, {currentSpot.country}
