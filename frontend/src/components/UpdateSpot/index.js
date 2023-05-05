@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams, useHistory } from "react-router-dom";
-import * as spotActions from "../../store/csrf";
+import * as spotActions from "../../store/spots";
 
 const EditForm = () => {
   const dispatch = useDispatch();
@@ -55,7 +55,7 @@ const EditForm = () => {
       name,
     };
 
-    await dispatch(spotsActions.spotUpdate(spot, spotId)).then((spot) => {
+    await dispatch(spotActions.spotUpdate(spot, spotId)).then((spot) => {
       history.push(`/spots/${spotId}`);
     });
   };

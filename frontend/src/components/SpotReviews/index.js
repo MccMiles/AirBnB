@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import * as reviewActions from "../../store/reviews";
+import { reviewActions } from "../../store/reviews";
 import { fetchSpotDetails } from "../../store/spots";
 import OpenModalButton from "../OpenModalButton";
 import PostReviewModal from "../PostReviewModal";
-import ConfirmReviewDeleteModal from "../ConfirmReviewDeleteModal";
+import DeleteReview from "../ReviewDeleteModal";
 import "./SpotReviews.css";
 
 const SpotReviews = () => {
@@ -72,9 +72,7 @@ const SpotReviews = () => {
             {user && review.User.id === user.id && (
               <OpenModalButton
                 buttonText="Delete"
-                modalComponent={
-                  <ConfirmReviewDeleteModal reviewId={review.id} />
-                }
+                modalComponent={<DeleteReview reviewId={review.id} />}
               />
             )}
           </div>

@@ -1,16 +1,16 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { deleteReviewThunk } from "../../store/reviews";
+import { reviewActions } from "../../store/reviews";
 
-const ConfirmReviewDeleteModal = ({ reviewId }) => {
+const DeleteReview = ({ reviewId }) => {
   const dispatch = useDispatch();
   const reviews = useSelector((state) => state.reviews);
   const { closeModal } = useModal();
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    await dispatch(deleteReviewThunk(reviewId));
+    await dispatch(reviewActions.deleteReviewThunk(reviewId));
     closeModal();
   };
 
@@ -36,4 +36,4 @@ const ConfirmReviewDeleteModal = ({ reviewId }) => {
   );
 };
 
-export default ConfirmReviewDeleteModal;
+export default DeleteReview;
