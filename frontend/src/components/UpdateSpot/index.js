@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams, useHistory } from "react-router-dom";
-import * as spotActions from "../../store/spots";
+import { spotActions } from "../../store/spots";
 
 const EditForm = () => {
   const dispatch = useDispatch();
@@ -15,13 +15,13 @@ const EditForm = () => {
   const ownerId = useSelector((state) => state.spots.spotDetails?.Owner?.id);
 
   useEffect(() => {
-    dispatch(spotActions.fetchSpotDetails(spotId)).finally(() => {
+    dispatch(spotActions.fetchSpotDetailsById(spotId)).finally(() => {
       setLoading(false);
     });
   }, [dispatch, spotId]);
 
   useEffect(() => {
-    if (!loading && currentSpot && userId === ownerId) {
+    if (!loading && currentSpot && ownerId === currentSpot?.Owner?.id) {
       setAddress(currentSpot?.address || "");
       setCountry(currentSpot?.country || "");
       setCity(currentSpot?.city || "");
@@ -30,7 +30,7 @@ const EditForm = () => {
       setPrice(currentSpot?.price || "");
       setName(currentSpot?.name || "");
     }
-  }, [userId, ownerId, loading, currentSpot]);
+  }, [ownerId, loading, currentSpot]);
 
   const [country, setCountry] = useState(currentSpot?.country || "");
   const [city, setCity] = useState(currentSpot?.city || "");

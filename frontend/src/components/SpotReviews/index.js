@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { reviewActions } from "../../store/reviews";
-import { fetchSpotDetails } from "../../store/spots";
+// import { spotActions } from "../../store/spots";
 import OpenModalButton from "../OpenModalButton";
 import PostReviewModal from "../PostReviewModal";
 import DeleteReview from "../ReviewDeleteModal";
@@ -16,22 +16,11 @@ const SpotReviews = () => {
   const { spotId } = useParams();
   const [loading, setLoading] = useState(true);
 
-  // Destructure currentSpot object
-  const {
-    country = "",
-    city = "",
-    state = "",
-    address = "",
-    description = "",
-    price = "",
-    name = "",
-  } = spot || {};
-
   useEffect(() => {
     const fetchData = async () => {
       await Promise.all([
         dispatch(reviewActions.fetchReviews(spotId)),
-        dispatch(fetchSpotDetails(spotId)),
+        // dispatch(spotActions.fetchSpotDetailsById(spotId)),
       ]);
       setLoading(false);
     };
@@ -41,7 +30,7 @@ const SpotReviews = () => {
   const renderPostReview = () => {
     return (
       user &&
-      user.id !== spot.Owner.id &&
+      user.id !== (spot?.Owner?.id || null) &&
       !reviews.length && (
         <OpenModalButton
           buttonText="Post Your Review"
@@ -55,7 +44,12 @@ const SpotReviews = () => {
     return <div>Loading...</div>;
   }
 
-  if (reviews.length > 0 && spot && user && user.id !== spot.Owner.id) {
+  if (
+    reviews.length > 0 &&
+    spot &&
+    user &&
+    user.id !== (spot?.Owner?.id || null)
+  ) {
     return (
       <div className="review-box">
         {renderPostReview()}
@@ -83,17 +77,17 @@ const SpotReviews = () => {
     reviews.length === 0 &&
     spot &&
     user &&
-    user.id !== spot.Owner.id
+    user.id !== (spot?.Owner?.id || null)
   ) {
     return (
       <div className="review-box">
-        <p>Be the first to post a review!</p>
+        <p>No reviews yet. Be the first to review!</p>
         {renderPostReview()}
       </div>
     );
-  } else {
-    return null;
   }
+
+  return null;
 };
 
 export default SpotReviews;

@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { spotActions } from "../../store/spots";
 import { reviewActions } from "../../store/reviews";
-
 import { useParams } from "react-router-dom";
 import "./SpotDetails.css";
+import SpotReviews from "../SpotReviews"; // import the SpotReviews component
 
 function SpotDetails() {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ function SpotDetails() {
   }
 
   return currentSpot ? (
-    <div className="spot-box">
+    <div className="spotdetail-box">
       <h1>{currentSpot.name}</h1>
       <p className="location">
         {currentSpot.city}, {currentSpot.state}, {currentSpot.country}
@@ -71,6 +71,9 @@ function SpotDetails() {
           </button>
         </div>
       </div>
+
+      {/* Render the SpotReviews component */}
+      <SpotReviews />
     </div>
   ) : null;
 }

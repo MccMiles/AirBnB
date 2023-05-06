@@ -24,11 +24,12 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route path="/spots/new">
+            <SpotForm />
+          </Route>
+
           <Route exact path="/">
             <ShowSpots isLoaded={isLoaded} />
-          </Route>
-          <Route path={`/spots/new`}>
-            <SpotForm />
           </Route>
           <Route path="/spots/current">
             <ManageSpots />
@@ -39,10 +40,6 @@ function App() {
           <Route path="/spots/:spotId">
             <SpotDetails />
             <SpotReviews />
-          </Route>
-          <Route path="/spots/:spotId">
-            <SpotDetails isLoaded={isLoaded} />
-            {/* <reviews></reviews> */}
           </Route>
         </Switch>
       )}
