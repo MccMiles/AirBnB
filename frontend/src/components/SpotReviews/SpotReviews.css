@@ -1,0 +1,56 @@
+.review-box {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.review-box p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.each-review {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.each-review p:first-child {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.each-review p:nth-child(2) {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.each-review p:last-child {
+  font-size: 16px;
+}
+
+.delete-review-button {
+  background-color: #dc3545;
+  border: none;
+  color: #fff;
+  padding: 5px 10px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.delete-review-button:hover {
+  background-color: #c82333;
+}
+
+.post-review-button {
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.post-review-button:hover {
+  background-color: #0069d9;
+}

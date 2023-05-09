@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
 import { useModal } from "../../context/Modal";
+import { Link } from "react-router-dom";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -10,6 +11,13 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
+
+  const handelDemoUser = (e) => {
+    e.preventDefault();
+    dispatch(sessionActions.demoLoginThunk())
+      .then(closeModal)
+      .catch((err) => console.log(err));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,9 +62,9 @@ function LoginFormModal() {
         />
       </label>
       <button type="submit">Log In</button>
-      <div>
-        <a href="/demo-user">Login as Demo</a>
-      </div>
+      <Link to="#" onClick={handelDemoUser} className="demo-user">
+        Demo User
+      </Link>
     </form>
   );
 }

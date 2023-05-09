@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./SpotForm.css";
 import { useDispatch, useSelector } from "react-redux";
+import "./SpotForm.css";
 import { spotActions } from "../../store/spots";
 import { useHistory } from "react-router-dom";
 
@@ -42,20 +42,70 @@ function SpotForm() {
       name,
     };
 
-    await dispatch(spotActions.createSpot(formData, spotImages))
-      .then((spot) => {
-        let spotId = parseInt(spot.id, 10);
-        history.push(`/spots/${spotId}`);
-      })
-      .catch(async (res) => {
-        const data = await res.json();
+    const imageErrors = {};
+    if (!previewImage.url) {
+      imageErrors.spotPreviewImage = "Preview Image is required";
+    }
 
-        if (data && data.errors) {
-          setErrors({ ...data.errors });
-        } else {
-          setErrors([...errors, "Something went wrong"]);
-        }
-      });
+    if (!/\.(png|jpe?g)$/i.test(previewImage.url)) {
+      imageErrors.imageUrl = "Image URL must end in .png, .jpg or .jpeg";
+    }
+
+    let totalErrors = {};
+
+    if (!formData.country) {
+      totalErrors.country = "Country is required";
+    }
+
+    if (!formData.address) {
+      totalErrors.address = "Address is required";
+    }
+
+    if (!formData.city) {
+      totalErrors.city = "City is required";
+    }
+
+    if (!formData.state) {
+      totalErrors.state = "State is required";
+    }
+
+    if (!formData.description || formData.description.length < 30) {
+      totalErrors.description =
+        "Description must be at least 30 characters long";
+    }
+
+    if (!formData.name) {
+      totalErrors.name = "Name is required";
+    }
+
+    if (!formData.price) {
+      totalErrors.price = "Price is required";
+    } else if (isNaN(parseFloat(formData.price))) {
+      totalErrors.price = "Price must be a number";
+    }
+
+    if (Object.keys(imageErrors).length > 0) {
+      totalErrors = { ...totalErrors, ...imageErrors };
+    }
+
+    if (Object.keys(totalErrors).length > 0) {
+      setErrors(totalErrors);
+    } else {
+      await dispatch(spotActions.createSpot(formData, spotImages))
+        .then((spot) => {
+          let spotId = parseInt(spot.id, 10);
+          history.push(`/spots/${spotId}`);
+        })
+        .catch(async (res) => {
+          const data = await res.json();
+
+          if (data && data.errors) {
+            setErrors({ ...data.errors });
+          } else {
+            setErrors([...errors, "Something went wrong"]);
+          }
+        });
+    }
   };
 
   return (

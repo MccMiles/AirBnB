@@ -490,22 +490,9 @@ router.post(
   requireAuth,
   validateReview,
   async (req, res) => {
+    const { id, firstName, lastName } = req.user;
+    const spotId = parseInt(req.params.spotId, 10);
     const { review, stars } = req.body;
-
-    const reviewStatus = await Review.findOne({
-      where: {
-        userId: req.user.id,
-        spotId: req.params.spotId,
-      },
-    });
-
-    if (reviewStatus) {
-      return res.status(403).json({
-        message: "User already has a review for this spot",
-        statusCode: 403,
-      });
-    }
-
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
@@ -515,22 +502,33 @@ router.post(
       });
     }
 
-    const newReview = await Review.create({
-      review,
-      stars,
-      userId: req.user.id,
-      spotId: req.params.spotId,
+    const existingReview = await Review.findOne({
+      where: { spotId: spotId, userId: id },
     });
 
-    return res.status(201).json({
-      id: newReview.id,
-      userId: newReview.userId,
-      spotId: newReview.spotId,
-      review: newReview.review,
-      stars: newReview.stars,
-      createdAt: newReview.createdAt,
-      updatedAt: newReview.updatedAt,
-    });
+    if (req.user && existingReview) {
+      return res.status(403).json({
+        message: "User already has a review for this spot",
+      });
+    } else {
+      const newReview = await Review.create({
+        userId: id,
+        spotId,
+        review,
+        stars,
+      });
+
+      res
+        .status(201)
+        .json({
+          User: { id, firstName, lastName },
+          id: newReview.id,
+          review: newReview.review,
+          stars: newReview.stars,
+          createdAt: newReview.createdAt,
+          updatedAt: newReview.updatedAt,
+        });
+    }
   }
 );
 

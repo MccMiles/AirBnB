@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { reviewActions } from "../../store/reviews";
-// import { spotActions } from "../../store/spots";
+import { spotActions } from "../../store/spots";
 import OpenModalButton from "../OpenModalButton";
 import PostReviewModal from "../PostReviewModal";
 import DeleteReview from "../ReviewDeleteModal";
@@ -10,7 +10,7 @@ import "./SpotReviews.css";
 
 const SpotReviews = () => {
   const dispatch = useDispatch();
-  const reviews = useSelector((state) => Object.values(state.reviews));
+  const reviews = useSelector((state) => Object.values(state.reviews.reviews));
   const spot = useSelector((state) => state.spots.spotDetails);
   const user = useSelector((state) => state.session.user);
   const { spotId } = useParams();
@@ -20,7 +20,7 @@ const SpotReviews = () => {
     const fetchData = async () => {
       await Promise.all([
         dispatch(reviewActions.fetchReviews(spotId)),
-        // dispatch(spotActions.fetchSpotDetailsById(spotId)),
+        dispatch(spotActions.fetchSpotDetailsById(spotId)),
       ]);
       setLoading(false);
     };
@@ -30,8 +30,7 @@ const SpotReviews = () => {
   const renderPostReview = () => {
     return (
       user &&
-      user.id !== (spot?.Owner?.id || null) &&
-      !reviews.length && (
+      spot && (
         <OpenModalButton
           buttonText="Post Your Review"
           modalComponent={<PostReviewModal />}
@@ -44,12 +43,11 @@ const SpotReviews = () => {
     return <div>Loading...</div>;
   }
 
-  if (
-    reviews.length > 0 &&
-    spot &&
-    user &&
-    user.id !== (spot?.Owner?.id || null)
-  ) {
+  if (!spot) {
+    return <div>Spot not found</div>;
+  }
+
+  if (reviews.length > 0) {
     return (
       <div className="review-box">
         {renderPostReview()}
@@ -73,12 +71,7 @@ const SpotReviews = () => {
         ))}
       </div>
     );
-  } else if (
-    reviews.length === 0 &&
-    spot &&
-    user &&
-    user.id !== (spot?.Owner?.id || null)
-  ) {
+  } else if (reviews.length === 0 && user) {
     return (
       <div className="review-box">
         <p>No reviews yet. Be the first to review!</p>

@@ -3,16 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { spotActions } from "../../store/spots";
 
-const EditForm = () => {
+const UpdateSpot = () => {
   const dispatch = useDispatch();
   const { spotId } = useParams();
   const history = useHistory();
 
-  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(true);
 
   const currentSpot = useSelector((state) => state.spots.spotDetails);
   const ownerId = useSelector((state) => state.spots.spotDetails?.Owner?.id);
+
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     dispatch(spotActions.fetchSpotDetailsById(spotId)).finally(() => {
@@ -55,9 +56,13 @@ const EditForm = () => {
       name,
     };
 
-    await dispatch(spotActions.spotUpdate(spot, spotId)).then((spot) => {
-      history.push(`/spots/${spotId}`);
-    });
+    await dispatch(spotActions.spotUpdate(spot, spotId))
+      .then((spot) => {
+        history.push(`/spots/${spotId}`);
+      })
+      .catch((error) => {
+        setErrors(error.response.data.errors);
+      });
   };
 
   return !loading && currentSpot ? (
@@ -158,4 +163,4 @@ const EditForm = () => {
   ) : null;
 };
 
-export default EditForm;
+export default UpdateSpot;

@@ -1,25 +1,25 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import { reviewActions } from "../../store/reviews";
-
 import { useSelector, useDispatch } from "react-redux";
-
 import "./PostReviewModal.css";
-
 import { useModal } from "../../context/Modal";
 
 const PostReviewModal = () => {
   const [review, setReview] = useState("");
   const [starRating, setStarRating] = useState(0);
   const [errors, setErrors] = useState({});
+  const [hoverRating, setHoverRating] = useState(0);
 
   const dispatch = useDispatch();
-
+  const currentUser = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spots.spotDetails);
 
   const { closeModal } = useModal();
 
   const handleRatingChange = (e) => {
-    setStarRating(e.target.value);
+    setStarRating(parseInt(e.target.value, 10));
   };
 
   const handleSubmit = async (e) => {
@@ -27,23 +27,35 @@ const PostReviewModal = () => {
 
     const newReview = {
       review,
-      stars: parseInt(starRating, 10),
+      stars: starRating,
     };
 
-    await dispatch(reviewActions.postReview(spot.id, newReview))
-      .then(() => {
-        dispatch(reviewActions.fetchReviews(spot.id));
-        closeModal();
-      })
-      .catch((error) => {
-        setErrors({ ...errors, errors: "Review already exists for this spot" });
-      });
+    const existingReview = spot.reviews.find(
+      (review) => review.userId === currentUser.id
+    );
+
+    if (existingReview) {
+      setErrors({ ...errors, errors: "Review already exists for this spot" });
+      return;
+    }
+
+    try {
+      await dispatch(reviewActions.postReview(spot.id, newReview));
+      dispatch(reviewActions.fetchReviews(spot.id));
+      closeModal();
+    } catch (error) {
+      setErrors({ ...errors });
+    }
   };
 
   const renderStars = () => {
     const stars = [];
 
     for (let i = 1; i <= 5; i++) {
+      const className = `star ${
+        i <= starRating ? "solid-star" : "hollow-star"
+      }`;
+
       stars.push(
         <label key={i}>
           <input
@@ -53,15 +65,21 @@ const PostReviewModal = () => {
             onChange={handleRatingChange}
             style={{ display: "none" }}
           />
-          <i
-            className={
-              i <= starRating ? "fas fa-star checked" : "far fa-star checked"
-            }
+          <FontAwesomeIcon
+            icon={faStar}
+            className={className}
+            style={{
+              color:
+                i <= hoverRating || i <= starRating ? "#ffc857" : "#303030",
+            }}
+            onMouseEnter={() => setHoverRating(i)}
+            onMouseLeave={() => setHoverRating(0)}
             onClick={() => setStarRating(i)}
           />
         </label>
       );
     }
+
     return stars;
   };
 
@@ -76,14 +94,14 @@ const PostReviewModal = () => {
       <form onSubmit={handleSubmit}>
         <textarea
           name="review"
-          placeholder="Please leave your review here..."
+          placeholder="Just a quick review."
           onChange={(e) => setReview(e.target.value)}
         ></textarea>
         <div className="stars">
           {renderStars()}
-
-          <p>stars</p>
+          <label className="stars-label">Stars</label>
         </div>
+
         <button disabled={review.length < 10}>Submit Your Review</button>
       </form>
     </div>

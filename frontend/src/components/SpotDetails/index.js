@@ -4,7 +4,6 @@ import { spotActions } from "../../store/spots";
 import { reviewActions } from "../../store/reviews";
 import { useParams } from "react-router-dom";
 import "./SpotDetails.css";
-import SpotReviews from "../SpotReviews"; // import the SpotReviews component
 
 function SpotDetails() {
   const dispatch = useDispatch();
@@ -22,58 +21,60 @@ function SpotDetails() {
     dispatch(reviewActions.fetchReviews(spotId));
   }, [dispatch, spotId]);
 
-  let spotImages = null;
-  if (currentSpot) {
-    spotImages = currentSpot.SpotImages.map((image) => (
-      <div className="item" key={image.id}>
-        <img className="img" src={image.url} alt={currentSpot.name} />
-      </div>
-    ));
-  }
-
   return currentSpot ? (
-    <div className="spotdetail-box">
-      <h1>{currentSpot.name}</h1>
-      <p className="location">
-        {currentSpot.city}, {currentSpot.state}, {currentSpot.country}
-      </p>
-
-      <div className="grid-container">{spotImages}</div>
-
-      <div className="description-grid">
-        <div>
-          <p>
-            Hosted by {currentSpot.Owner.firstName} {currentSpot.Owner.lastName}
+    <div className="Main">
+      <div className="spotdetail-box">
+        <div className="header">
+          <h1>{currentSpot.name}</h1>
+          <p className="location">
+            {currentSpot.city}, {currentSpot.state}, {currentSpot.country}
           </p>
-          <p>{currentSpot.description}</p>
+        </div>
+        <div className="grid-container">
+          {currentSpot.SpotImages.map((image) => (
+            <div className="item" key={image.id}>
+              <img src={image.url} alt={currentSpot.name} />
+            </div>
+          ))}
         </div>
 
-        <div className="reserve-grid">
-          <p className="price">
-            $
-            {Number.isInteger(currentSpot.price)
-              ? currentSpot.price.toFixed(2)
-              : currentSpot.price}{" "}
-            night
-          </p>
-          <div
-            className="stars-container"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <p className="fa-solid fa-star"></p>
-            <p>&nbsp;&middot;&nbsp;</p>
-            <h2>
-              {reviews.length} {reviews.length === 1 ? "review" : "reviews"}
-            </h2>
+        <div className="description-grid">
+          <div>
+            <p>
+              Hosted by {currentSpot.Owner.firstName}{" "}
+              {currentSpot.Owner.lastName}
+            </p>
+            <p>{currentSpot.description}</p>
           </div>
-          <button onClick={handleReserve} className="reserve-button">
-            Reserve
-          </button>
+
+          <div className="reserve-grid">
+            <p className="price">
+              $
+              {Number.isInteger(currentSpot.price)
+                ? currentSpot.price.toFixed(2)
+                : currentSpot.price}{" "}
+              night
+            </p>
+            <div
+              className="stars-container"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <p className="fa-solid fa-star"></p>
+              <p>&nbsp;&middot;&nbsp;</p>
+              {reviews.length > 0 ? (
+                <p>
+                  {reviews.length} {reviews.length === 1 ? "review" : "reviews"}
+                </p>
+              ) : (
+                <p>New</p>
+              )}
+            </div>
+            <button onClick={handleReserve} className="reserve-button">
+              Reserve
+            </button>
+          </div>
         </div>
       </div>
-
-      {/* Render the SpotReviews component */}
-      <SpotReviews />
     </div>
   ) : null;
 }

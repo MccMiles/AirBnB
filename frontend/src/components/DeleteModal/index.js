@@ -1,29 +1,28 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { spotActions } from "../../store/spots";
-import { useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useModal } from "../../context/Modal";
+import "./DeleteModal.css";
 
-const ConfirmDelete = () => {
+const ConfirmDelete = ({ spotId }) => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const modalRef = useRef(null);
-  const dispatch = useDispatch();
-
-  // Access the spotDetails object from the Redux store
-  const currentSpot = useSelector((state) => state.spots.spotDetails);
+  const currentSpot = useSelector((state) => state.spots.spots);
 
   const { closeModal } = useModal();
 
-  const handleDelete = async (e) => {
-    e.preventDefault();
-    dispatch(spotActions.deleteSpot(currentSpot.id)).then(closeModal);
-    history.push("/spots/current");
+  const handleDelete = async () => {
+    if (currentSpot.length > 0) {
+      await dispatch(spotActions.deleteSpot(spotId));
+      closeModal();
+      history.push("/spots/current");
+    }
   };
 
   const handleNo = () => {
     closeModal();
-    history.push("/spots/current");
   };
 
   return (

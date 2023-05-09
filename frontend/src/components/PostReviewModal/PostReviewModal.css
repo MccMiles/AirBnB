@@ -1,0 +1,93 @@
+.reviewform-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 500px; /* increase width */
+  height: 400px; /* increase height */
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.error {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: #ff5a5f;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.error p {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+}
+
+.star {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.stars-label {
+  margin-left: 30px;
+}
+
+.solid-star {
+  color: #ffc857;
+}
+
+.hollow-star {
+  color: #303030;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  font-size: 14px;
+  height: 100px;
+}
+
+.stars {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.stars > * + * {
+  margin-left: 0.3rem;
+}
+
+.stars p {
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #ff5a5f;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff4b4f;
+}
+
+input[type="radio"] {
+  display: none;
+}

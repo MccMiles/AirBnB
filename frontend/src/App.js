@@ -8,7 +8,7 @@ import ShowSpots from "./components/ShowSpots";
 import SpotDetails from "./components/SpotDetails";
 import SpotForm from "./components/SpotForm";
 import ManageSpots from "./components/ManageSpots";
-import EditForm from "./components/UpdateSpot";
+import UpdateSpot from "./components/EditSpot";
 import SpotReviews from "./components/SpotReviews";
 
 function App() {
@@ -24,23 +24,24 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route exact path="/">
+            <ShowSpots isLoaded={isLoaded} />
+          </Route>
           <Route path="/spots/new">
             <SpotForm />
           </Route>
 
-          <Route exact path="/">
-            <ShowSpots isLoaded={isLoaded} />
-          </Route>
           <Route path="/spots/current">
             <ManageSpots />
           </Route>
           <Route path="/spots/:spotId/edit">
-            <EditForm />
+            <UpdateSpot />
           </Route>
           <Route path="/spots/:spotId">
             <SpotDetails />
             <SpotReviews />
           </Route>
+          {/* <Route path="/spots/:spotId"></Route> */}
         </Switch>
       )}
     </>
