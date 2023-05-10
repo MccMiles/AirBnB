@@ -1,5 +1,3 @@
-/* frontend/src/components/ShowSpots.css */
-
 .spots-container {
   display: flex;
   flex-wrap: wrap;
@@ -22,6 +20,7 @@
   width: 100%;
   height: 60%;
   object-fit: cover;
+  display: block;
 }
 
 .spot-card-details {
@@ -48,14 +47,21 @@ a {
   text-decoration: none;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 480px) {
+  .spot-card {
+    width: 90%;
+    margin: 10px;
+  }
+}
+
+@media only screen and (max-width: 320px) {
   .spots-container {
     flex-direction: column;
     align-items: center;
   }
 
   .spot-card {
-    width: 80%;
-    margin: 20px 0;
+    width: 90%;
+    margin: 10px 0;
   }
 }

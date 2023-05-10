@@ -91,18 +91,19 @@ function SpotForm() {
     if (Object.keys(totalErrors).length > 0) {
       setErrors(totalErrors);
     } else {
-      await dispatch(spotActions.createSpot(formData, spotImages))
-        .then((spot) => {
-          let spotId = parseInt(spot.id, 10);
-          history.push(`/spots/${spotId}`);
+      console.log("Submitting form data: ", formData, spotImages);
+      await dispatch(spotActions.createSpot(formData))
+        .then(() => {
+          history.push("/spots");
         })
         .catch(async (res) => {
           const data = await res.json();
+          console.log("Error data: ", data);
 
           if (data && data.errors) {
             setErrors({ ...data.errors });
           } else {
-            setErrors([...errors, "Something went wrong"]);
+            setErrors({ general: "Something went wrong" });
           }
         });
     }

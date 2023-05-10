@@ -17,7 +17,6 @@ const ConfirmDelete = ({ spotId }) => {
     if (currentSpot.length > 0) {
       await dispatch(spotActions.deleteSpot(spotId));
       closeModal();
-      history.push("/spots/current");
     }
   };
 

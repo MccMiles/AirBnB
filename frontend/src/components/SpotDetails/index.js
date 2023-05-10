@@ -59,15 +59,11 @@ function SpotDetails() {
               className="stars-container"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <p className="fa-solid fa-star"></p>
-              <p>&nbsp;&middot;&nbsp;</p>
-              {reviews.length > 0 ? (
-                <p>
-                  {reviews.length} {reviews.length === 1 ? "review" : "reviews"}
-                </p>
-              ) : (
-                <p>New</p>
-              )}
+              <p className="fa-solid fa-star">
+                {" "}
+                {reviews.length === 0 ? "New" : reviews.length}{" "}
+                {reviews.length === 1 ? "review" : "reviews"}
+              </p>
             </div>
             <button onClick={handleReserve} className="reserve-button">
               Reserve

@@ -38,6 +38,8 @@ router.post("/", validateSignup, async (req, res) => {
     lastName,
   });
 
+  const newToken = await setTokenCookie(res, user);
+
   return res.status(201).json({
     user: {
       id: user.id,
@@ -45,6 +47,7 @@ router.post("/", validateSignup, async (req, res) => {
       lastName: user.lastName,
       email: user.email,
       username: user.username,
+      token: newToken,
     },
   });
 });

@@ -13,7 +13,7 @@ export const spotActions = {
 
   createSpot: (spot) => ({
     type: "spots/createSpot",
-    payload: spot,
+    spot,
   }),
 
   createSpotImage: (spotId, spotImage) => ({

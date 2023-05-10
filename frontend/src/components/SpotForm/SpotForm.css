@@ -94,10 +94,6 @@ input[type="number"] {
   position: relative;
 }
 
-.image-upload:hover {
-  border-color: #bbb;
-}
-
 .upload-icon {
   font-size: 60px;
   color: #ccc;
@@ -118,13 +114,8 @@ input[type="number"] {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.delete-icon:hover {
-  background-color: #ff5a5f;
-  color: #fff;
-}
-
 .submit-button {
-  background-color: #ff5a5f;
+  /* background-color: #ff5a5f; */
   color: #fff;
   border: none;
   cursor: pointer;
@@ -133,8 +124,4 @@ input[type="number"] {
   padding: 10px 20px;
   border-radius: 4px;
   transition: all 0.3s ease;
-}
-
-.submit-button:hover {
-  background-color: #ff4b4f;
 }

@@ -1,23 +1,15 @@
-import "./DemoUser.css";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { loginThunk } from "../../store/session";
+import { demoLoginThunk } from "../store/session";
 
-function DemoUserLink() {
+const DemoLoginButton = () => {
   const dispatch = useDispatch();
 
-  const handleDemoLogin = async () => {
-    const credential = "demouser";
-    const password = "password";
-    await dispatch(loginThunk({ credential, password }));
+  const handleDemoLogin = () => {
+    dispatch(demoLoginThunk());
   };
 
-  return (
-    <div>
-      <hr />
-      <button onClick={handleDemoLogin}>Login as Demo</button>
-    </div>
-  );
-}
+  return <button onClick={handleDemoLogin}>Log in as demo user</button>;
+};
 
-export default DemoUserLink;
+export default DemoLoginButton;

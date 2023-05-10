@@ -5,6 +5,7 @@ import { reviewActions } from "../../store/reviews";
 import { useSelector, useDispatch } from "react-redux";
 import "./PostReviewModal.css";
 import { useModal } from "../../context/Modal";
+import { find } from "lodash";
 
 const PostReviewModal = () => {
   const [review, setReview] = useState("");
@@ -25,14 +26,25 @@ const PostReviewModal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (review.length < 10) {
+      setErrors({
+        ...errors,
+        review: "Review must be at least 10 characters long",
+      });
+      return;
+    }
+
     const newReview = {
       review,
       stars: starRating,
+      userId: currentUser.id,
     };
 
-    const existingReview = spot.reviews.find(
-      (review) => review.userId === currentUser.id
-    );
+    // const existingReview = spot.reviews.find(
+    //   (review) => review.userId === currentUser.id
+    // );
+
+    const existingReview = find(spot.reviews, { userId: currentUser.id });
 
     if (existingReview) {
       setErrors({ ...errors, errors: "Review already exists for this spot" });
@@ -41,11 +53,16 @@ const PostReviewModal = () => {
 
     try {
       await dispatch(reviewActions.postReview(spot.id, newReview));
-      dispatch(reviewActions.fetchReviews(spot.id));
+      await dispatch(reviewActions.fetchReviews(spot.id));
       closeModal();
     } catch (error) {
-      setErrors({ ...errors });
+      setErrors({
+        ...errors,
+        review: "There was a problem submitting your review. Please try again.",
+      });
     }
+
+    setErrors({});
   };
 
   const renderStars = () => {
@@ -85,24 +102,19 @@ const PostReviewModal = () => {
 
   return (
     <div className="reviewform-container">
-      <h1>How was your stay?</h1>
-      <div className="error">
-        {Object.values(errors).map((error, idx) => (
-          <p key={idx}>{error}</p>
-        ))}
-      </div>
+      <h1>How was your experience?</h1>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="review">Review</label>
         <textarea
-          name="review"
-          placeholder="Just a quick review."
+          id="review"
+          value={review}
           onChange={(e) => setReview(e.target.value)}
         ></textarea>
-        <div className="stars">
-          {renderStars()}
-          <label className="stars-label">Stars</label>
-        </div>
-
-        <button disabled={review.length < 10}>Submit Your Review</button>
+        {errors.review && <p className="errors">{errors.review}</p>}
+        <div className="rating-container">{renderStars()}</div>
+        <button className="review-submit" type="submit">
+          Submit Review
+        </button>
       </form>
     </div>
   );

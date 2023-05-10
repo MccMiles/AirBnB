@@ -6,8 +6,6 @@ import SignupFormModal from "../SignupFormModal";
 import ProfileButton from "./ProfileButton";
 import OpenModalButton from "../OpenModalButton";
 import logo from "../../images/Airbnb_logo_PNG3.png";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faAirbnb } from "@fortawesome/free-brands-svg-icons";
 
 import "./Navigation.css";
 
@@ -17,10 +15,9 @@ function Navigation({ isLoaded }) {
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <li>
-        <NavLink to="/spots/new">Create a New Spot</NavLink>
+      <ul>
         <ProfileButton user={sessionUser} />
-      </li>
+      </ul>
     );
   } else {
     sessionLinks = (
@@ -39,14 +36,24 @@ function Navigation({ isLoaded }) {
     );
   }
   return (
-    <ul>
-      <li style={{ position: "relative" }}>
+    <div className="nav-flexbox">
+      <div style={{ position: "relative" }}>
         <NavLink exact to="/">
-          <img className="home-logo" src={logo} alt="return to home" />
+          <img
+            style={{ height: "40px", width: "128px" }}
+            src={logo}
+            alt="return to home"
+          />
         </NavLink>
-      </li>
+      </div>
+
+      <NavLink className="spotlink" to="/spots/new">
+        Create a New Spot
+      </NavLink>
+
       {isLoaded && sessionLinks}
-    </ul>
+    </div>
   );
 }
+
 export default Navigation;

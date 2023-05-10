@@ -38,10 +38,6 @@
   cursor: pointer;
 }
 
-.delete-review-button:hover {
-  background-color: #c82333;
-}
-
 .post-review-button {
   background-color: #007bff;
   border: none;
@@ -49,8 +45,4 @@
   padding: 10px 20px;
   margin-top: 20px;
   cursor: pointer;
-}
-
-.post-review-button:hover {
-  background-color: #0069d9;
 }

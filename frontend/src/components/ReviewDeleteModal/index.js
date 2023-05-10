@@ -1,19 +1,22 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { useHistory } from "react-router-dom";
 import { reviewActions } from "../../store/reviews";
 
 const DeleteReview = ({ reviewId }) => {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
-  const history = useHistory();
+  const reviews = useSelector((state) => Object.values(state.reviews.reviews));
+  const currentUser = useSelector((state) => state.session.user);
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    await dispatch(reviewActions.deleteReviewThunk(reviewId));
-    closeModal();
-    history.push("/spots/current");
+    const review = reviews.find(
+      (review) =>
+        review.id === parseInt(reviewId) && review.userId === currentUser.id
+    );
+
+    await dispatch(reviewActions.deleteReviewThunk(review.id)).then(closeModal);
   };
 
   const handleNo = () => {
@@ -24,8 +27,8 @@ const DeleteReview = ({ reviewId }) => {
     <div className="confirm-container">
       <form onSubmit={handleDelete}>
         <h1>Confirm Delete</h1>
-        <p className="question">Are you sure you want to delete this review?</p>
-        <div className="button-box">
+        <p className="confirm-question">Are you sure you want to delete?</p>
+        <div className="confirm-buttons">
           <button type="submit" className="confirm-button">
             Yes (Delete Review)
           </button>

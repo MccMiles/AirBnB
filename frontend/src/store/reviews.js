@@ -27,6 +27,20 @@ export const reviewActions = {
       dispatch(reviewActions.setReviews(data.Reviews));
     }
   },
+  userReviews: (userId) => async (dispatch) => {
+    try {
+      const response = await csrfFetch(`/api/users/${userId}/reviews`);
+
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(reviewActions.setReviews(data.Reviews));
+      } else {
+        throw new Error("Failed to fetch user reviews");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  },
 
   postReview: (spotId, review) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
@@ -56,6 +70,17 @@ export const reviewActions = {
     const deletedReview = await response.json();
     dispatch(reviewActions.deleteReview(deletedReview.reviewId));
     return deletedReview;
+  },
+
+  fetchUser: (userId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/users/${userId}`);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      const data = await response.json();
+      return data;
+    }
   },
 };
 

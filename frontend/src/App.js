@@ -8,6 +8,7 @@ import ShowSpots from "./components/ShowSpots";
 import SpotDetails from "./components/SpotDetails";
 import SpotForm from "./components/SpotForm";
 import ManageSpots from "./components/ManageSpots";
+import ManageReviews from "./components/ManageReviews";
 import UpdateSpot from "./components/EditSpot";
 import SpotReviews from "./components/SpotReviews";
 
@@ -33,6 +34,9 @@ function App() {
 
           <Route path="/spots/current">
             <ManageSpots />
+          </Route>
+          <Route path="/reviews/current">
+            <ManageReviews />
           </Route>
           <Route path="/spots/:spotId/edit">
             <UpdateSpot />

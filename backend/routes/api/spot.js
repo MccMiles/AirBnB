@@ -297,6 +297,7 @@ router.post("/", requireAuth, async (req, res, next) => {
         name: "Name must be less than 50 characters",
         description: "Description is required",
         price: "Price per day is required",
+        previewImage: "Preview image is required",
       },
     });
   }
@@ -312,7 +313,7 @@ router.post("/", requireAuth, async (req, res, next) => {
     description: description,
     price: price,
   });
-  res.status(201).json(spot);
+  res.status(201).json({ newSpot: spot });
 });
 
 //Add an Image to a Spot based on Spot's id
@@ -518,16 +519,14 @@ router.post(
         stars,
       });
 
-      res
-        .status(201)
-        .json({
-          User: { id, firstName, lastName },
-          id: newReview.id,
-          review: newReview.review,
-          stars: newReview.stars,
-          createdAt: newReview.createdAt,
-          updatedAt: newReview.updatedAt,
-        });
+      res.status(201).json({
+        User: { id, firstName, lastName },
+        id: newReview.id,
+        review: newReview.review,
+        stars: newReview.stars,
+        createdAt: newReview.createdAt,
+        updatedAt: newReview.updatedAt,
+      });
     }
   }
 );
