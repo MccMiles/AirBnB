@@ -1,3 +1,5 @@
+//redirects you to home when logout
+
 import "./LoginForm.css";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";

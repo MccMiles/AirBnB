@@ -1,9 +1,9 @@
 unsplash.com
+https://awik.io/generate-random-images-unsplash-without-using-api/
+
+https://source.unsplash.com/random/?city,night
+
+
 fontawesome.com
 
-it appears to me that i am
-- fetching reviews for a specific spot by its id in SpotDetails component.
-- added fetch reviews to my review store
-- Then I added the use effect inside my spot reviews
-- added spot reviews to details page
-
+add default stylings 

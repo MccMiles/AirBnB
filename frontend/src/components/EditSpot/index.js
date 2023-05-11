@@ -33,15 +33,13 @@ const UpdateSpot = () => {
     }
   }, [ownerId, loading, currentSpot]);
 
-  const [country, setCountry] = useState(currentSpot?.country || "");
-  const [city, setCity] = useState(currentSpot?.city || "");
-  const [state, setState] = useState(currentSpot?.state || "");
-  const [address, setAddress] = useState(currentSpot?.address || "");
-  const [description, setDescription] = useState(
-    currentSpot?.description || ""
-  );
-  const [price, setPrice] = useState(currentSpot?.price || "");
-  const [name, setName] = useState(currentSpot?.name || "");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [address, setAddress] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [name, setName] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,8 +54,8 @@ const UpdateSpot = () => {
       name,
     };
 
-    await dispatch(spotActions.spotUpdate(spot, spotId))
-      .then((spot) => {
+    await dispatch(spotActions.updateSpot(spot))
+      .then(() => {
         history.push(`/spots/${spotId}`);
       })
       .catch((error) => {
@@ -102,7 +100,7 @@ const UpdateSpot = () => {
             <input
               type="text"
               value={city}
-              placeholder="dity"
+              placeholder="City"
               onChange={(e) => setCity(e.target.value)}
             />
           </label>
@@ -125,42 +123,47 @@ const UpdateSpot = () => {
             <br />
             <textarea
               value={description}
-              placeholder="Tell guests about your place"
+              placeholder="Tell us about your place"
               onChange={(e) => setDescription(e.target.value)}
-            />
+            ></textarea>
           </label>
           <label className="label">
             Price per night <p className="errors">{errors.price}</p>
             <br />
             <input
-              type="number"
+              type="text"
               value={price}
-              placeholder="Price per night"
+              placeholder="Price"
               onChange={(e) => setPrice(e.target.value)}
             />
           </label>
+        </div>
+
+        <div className="section">
+          <h2>Title your spot</h2>
           <label className="label">
-            Spot name <p className="errors">{errors.name}</p>
+            Title <p className="errors">{errors.name}</p>
             <br />
             <input
               type="text"
               value={name}
-              placeholder="Name your spot"
+              placeholder="Title"
               onChange={(e) => setName(e.target.value)}
             />
           </label>
         </div>
 
-        <button type="submit" className="button">
-          Update
-        </button>
-
-        <Link to={`/spots/${spotId}`} className="link">
-          <button className="button">Cancel</button>
-        </Link>
+        <div className="actions">
+          <button type="submit">Update Spot</button>
+          <Link to={`/spots/${spotId}`} className="cancel-link">
+            Cancel
+          </Link>
+        </div>
       </form>
     </div>
-  ) : null;
+  ) : (
+    <div>Loading...</div>
+  );
 };
 
 export default UpdateSpot;

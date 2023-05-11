@@ -1,11 +1,10 @@
 /* Default styles */
-
 .spotdetail-box {
   margin: 0 auto;
   max-width: 900px;
   padding: 30px;
-  margin-right: auto; /* add this line to adjust the margin */
-  margin-left: 0; /* add this line to adjust the margin */
+  margin-right: auto;
+  margin-left: 0;
 }
 
 h1 {
@@ -32,7 +31,7 @@ h1 {
   text-decoration: underline;
   font-weight: 600;
   position: relative;
-  color: rgb(34 34 34 / 80%);
+  color: hsl(34, 34%, 34%);
 }
 
 .grid-container {
@@ -42,16 +41,16 @@ h1 {
   grid-gap: 10px;
   width: 90%;
   margin-bottom: 20px;
-  justify-content: center; /* add this line to center the grid horizontally */
-  align-content: center; /* add this line to center the grid vertically */
+  justify-content: center;
+  align-content: center;
 }
 
 .item {
   text-align: center;
   align-items: center;
   display: flex;
-  justify-content: center; /* add this line to center the images horizontally */
-  align-items: center; /* add this line to center the images vertically */
+  justify-content: center;
+  align-items: center;
 }
 
 .item:first-child {
@@ -85,7 +84,7 @@ h1 {
   font-weight: 500;
   margin-top: 10px;
   grid-gap: 30px;
-  border-bottom: solid 2px rgb(48 48 48);
+  border-bottom: solid 2px hsl(48, 48%, 48%);
 }
 
 .price {
@@ -96,7 +95,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between; /* Add this line to align items to top and bottom */
+  justify-content: space-between;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -104,18 +103,18 @@ h1 {
   box-sizing: border-box;
   margin-bottom: 20px;
   width: 180px;
-  height: 160px; /* Add this line to set the height */
+  height: 160px;
 }
 
 .reserve-grid > p {
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 0; /* Add this line to remove margin-bottom */
+  margin-bottom: 0;
 }
 
 .reserve-grid button {
-  margin-top: 10px; /* Add this line to create space between p tags and button */
-  width: 100%; /* Add this line to stretch the button */
+  margin-top: 10px;
+  width: 100%;
 }
 
 .item img {
@@ -126,6 +125,12 @@ h1 {
 
 .header {
   margin-left: calc((100vw - 900px) / 20);
+}
+
+/* Colors */
+body {
+  background-color: hsl(13, 100%, 96%);
+  color: hsl(232, 12%, 13%);
 }
 
 /* Media queries */
@@ -209,4 +214,34 @@ h1 {
     grid-column: 2;
     grid-row: 4;
   }
+}
+
+footer {
+  background-color: #f7f7f7;
+  border-top: 1px solid #ddd;
+  padding: 30px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer-links {
+  margin: 0;
+}
+
+.footer-links li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.footer-links li:last-child {
+  margin-right: 0;
+}
+
+.footer-links a {
+  color: #333;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
 }

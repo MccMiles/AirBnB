@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 import { spotActions } from "../../store/spots";
 import { reviewActions } from "../../store/reviews";
@@ -9,7 +10,11 @@ function SpotDetails() {
   const dispatch = useDispatch();
   const { spotId } = useParams();
   const currentSpot = useSelector((state) => state.spots.spotDetails);
-  const reviews = useSelector((state) => Object.values(state.reviews));
+  const reviews = useSelector((state) => Object.values(state.reviews)[0]);
+  const reviewCount = Object.keys(reviews).length;
+  const [currentRating, setCurrentRating] = useState(
+    currentSpot ? currentSpot.avgStarRating : 0
+  );
 
   function handleReserve(e) {
     e.preventDefault();
@@ -21,18 +26,46 @@ function SpotDetails() {
     dispatch(reviewActions.fetchReviews(spotId));
   }, [dispatch, spotId]);
 
+  useEffect(() => {
+    setCurrentRating(currentSpot ? currentSpot.avgStarRating : 0);
+  }, [currentSpot]);
+
+  useEffect(() => {
+    if (currentSpot) {
+      currentSpot.SpotImages.forEach((image) => {
+        const img = new Image();
+        img.onload = () => {
+          console.log(
+            `Original size of ${image.url}: ${img.naturalWidth}px x ${img.naturalHeight}px`
+          );
+        };
+        img.src = image.url;
+      });
+    }
+  }, [currentSpot]);
+
   return currentSpot ? (
     <div className="Main">
       <div className="spotdetail-box">
         <div className="header">
           <h1>{currentSpot.name}</h1>
+          <p>
+            <p>&nbsp;&middot;&nbsp;</p>
+            {reviewCount === 0
+              ? "New"
+              : `${reviewCount} ${reviewCount === 1 ? "review" : "reviews"}`}
+          </p>
           <p className="location">
             {currentSpot.city}, {currentSpot.state}, {currentSpot.country}
           </p>
         </div>
         <div className="grid-container">
           {currentSpot.SpotImages.map((image) => (
-            <div className="item" key={image.id}>
+            <div
+              // style={{ width: "300px", height: "auto" }}
+              className="item"
+              key={image.id}
+            >
               <img src={image.url} alt={currentSpot.name} />
             </div>
           ))}
@@ -55,16 +88,18 @@ function SpotDetails() {
                 : currentSpot.price}{" "}
               night
             </p>
+
             <div
               className="stars-container"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <p className="fa-solid fa-star">
-                {" "}
-                {reviews.length === 0 ? "New" : reviews.length}{" "}
-                {reviews.length === 1 ? "review" : "reviews"}
-              </p>
+              <div
+                className="fa-sharp fa-solid fa-star star-color"
+                style={{ color: "#ffc857" }}
+              ></div>{" "}
+              {reviewCount === 0 ? "New" : currentRating}
             </div>
+
             <button onClick={handleReserve} className="reserve-button">
               Reserve
             </button>

@@ -11,10 +11,26 @@ export const spotActions = {
     payload: spotDetails,
   }),
 
-  createSpot: (spot) => ({
-    type: "spots/createSpot",
-    spot,
-  }),
+  createSpot: (spot) => async (dispatch) => {
+    try {
+      const response = await csrfFetch("/api/spots", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(spot),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to create spot");
+      }
+      const data = await response.json();
+      dispatch(spotActions.setSpotDetails(data));
+      return data; // Optionally, return the created spot data
+    } catch (error) {
+      console.error("Error creating spot:", error);
+      throw error; // Rethrow the error to handle it in the component
+    }
+  },
 
   createSpotImage: (spotId, spotImage) => ({
     type: "spots/createSpotImage",
@@ -24,10 +40,26 @@ export const spotActions = {
     },
   }),
 
-  updateSpot: (spot) => ({
-    type: "spots/updateSpot",
-    payload: spot,
-  }),
+  updateSpot: (spot) => async (dispatch) => {
+    try {
+      const response = await csrfFetch(`/api/spots/${spot.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(spot),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update spot");
+      }
+      const data = await response.json();
+      dispatch(spotActions.setSpotDetails(data));
+      return data; // Optionally, return the updated spot data
+    } catch (error) {
+      console.error("Error updating spot:", error);
+      throw error; // Rethrow the error to handle it in the component
+    }
+  },
 
   deleteSpot: (spotId) => ({
     type: "spots/deleteSpot",
@@ -67,12 +99,10 @@ const spotsReducer = (state = initialState, action) => {
       return state;
 
     case "spots/updateSpot":
-      const index = state.spots.findIndex(
-        (spot) => spot.id === action.payload.id
-      );
-      const updatedSpots = [...state.spots];
-      updatedSpots[index] = action.payload;
-      return { ...state, spots: updatedSpots };
+      return {
+        ...state,
+        spotDetails: action.payload, // Update spotDetails with the updated spot
+      };
 
     case "spots/deleteSpot":
       const remainingSpots = state.spots.filter(

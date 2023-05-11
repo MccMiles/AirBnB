@@ -41,17 +41,7 @@
   font-size: 14px;
 }
 
-.login-modal button {
-  /* background-color: #ff5a5f; */
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
+
 
 .login-modal a {
   font-size: 14px;

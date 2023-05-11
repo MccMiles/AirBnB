@@ -1,48 +1,39 @@
 .review-box {
-  border: 1px solid #ddd;
+  background-color: transparent;
+
   padding: 20px;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-.review-box p {
-  font-size: 18px;
-  margin-bottom: 10px;
+.review-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.review-header p {
+  margin: 0;
 }
 
 .each-review {
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-top: 10px;
+  margin-bottom: 47px;
 }
 
-.each-review p:first-child {
-  font-weight: bold;
-  font-size: 16px;
+.review-box .fa-sharp.fa-solid.fa-star {
+  color: #fc642d;
 }
 
-.each-review p:nth-child(2) {
-  font-size: 14px;
-  margin-bottom: 5px;
+.post-review {
+  margin-right: 10px;
 }
 
-.each-review p:last-child {
-  font-size: 16px;
+.loading {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.delete-review-button {
-  background-color: #dc3545;
-  border: none;
-  color: #fff;
-  padding: 5px 10px;
-  margin-top: 5px;
-  cursor: pointer;
-}
-
-.post-review-button {
-  background-color: #007bff;
-  border: none;
-  color: #fff;
-  padding: 10px 20px;
-  margin-top: 20px;
-  cursor: pointer;
+.spot-not-found {
+  text-align: center;
+  margin-bottom: 20px;
 }

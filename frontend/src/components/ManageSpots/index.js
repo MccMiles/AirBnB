@@ -17,7 +17,8 @@ const ManageSpot = () => {
 
   useEffect(() => {
     console.log("Entering useEffect");
-    dispatch(spotActions.fetchSpots());
+    const fetchSpots = () => dispatch(spotActions.fetchSpots());
+    fetchSpots();
     console.log("Leaving useEffect");
   }, [dispatch]);
 

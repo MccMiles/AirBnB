@@ -91,20 +91,13 @@ function SpotForm() {
     if (Object.keys(totalErrors).length > 0) {
       setErrors(totalErrors);
     } else {
-      console.log("Submitting form data: ", formData, spotImages);
       await dispatch(spotActions.createSpot(formData))
         .then(() => {
           history.push("/spots");
         })
-        .catch(async (res) => {
-          const data = await res.json();
-          console.log("Error data: ", data);
-
-          if (data && data.errors) {
-            setErrors({ ...data.errors });
-          } else {
-            setErrors({ general: "Something went wrong" });
-          }
+        .catch((error) => {
+          console.log("Error creating spot:", error);
+          // Update error state if necessary
         });
     }
   };

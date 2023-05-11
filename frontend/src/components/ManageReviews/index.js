@@ -1,3 +1,5 @@
+//currently imports the whole list where i have a review  instead of specific with user id
+
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { reviewActions } from "../../store/reviews";
@@ -8,48 +10,52 @@ import { Link } from "react-router-dom";
 
 const ManageReviews = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.session.user);
-  const currentUserReviews = useSelector((state) =>
-    Object.values(state.reviews.reviews)
-  ).filter((review) => review.userId === user.id);
+  const currentUser = useSelector((state) => state.session.user);
+  const currentUserReviews = useSelector((state) => state.reviews.reviews);
 
   useEffect(() => {
-    console.log("Fetching reviews...");
-    dispatch(reviewActions.userReviews(user.id));
-  }, [dispatch, user.id]);
+    dispatch(reviewActions.userReviews(currentUser.id));
+  }, [dispatch, currentUser.id]);
 
-  console.log(
-    "my userReviews------------>",
-    useSelector((state) => Object.values(state.reviews.reviews))
-  );
-
-  return currentUserReviews.length > 0 ? (
+  return Object.values(currentUserReviews).length > 0 ? (
     <div>
       <h1>Manage Your Reviews</h1>
       <div className="reviews-container">
-        {currentUserReviews.map((review) => (
+        {Object.values(currentUserReviews).map((review) => (
           <Link
-            to={`/spots/${review.Spot.id}`}
+            to={`/spots/${review?.Spot?.id}`}
             className="each-review"
-            key={review.id}
+            key={review?.id}
           >
-            <div className="each-review" key={review.id}>
-              <p>{review.Spot.name}</p>
+            <div className="each-review" key={review?.id}>
+              <p>{review?.Spot?.name}</p>
               <p>
-                {new Date(review.createdAt).toLocaleString("en-us", {
+                {new Date(review?.createdAt).toLocaleString("en-us", {
                   month: "long",
                   year: "numeric",
                 })}
               </p>
-              <p>{review.review}</p>
+              <p>{review?.review}</p>
               <div className="update-delete">
-                <Link to={`/spots/${review.Spot.id}/reviews/${review.id}/edit`}>
-                  <button>Update</button>
+                <Link
+                  to={`/spots/${review?.Spot?.id}/reviews/${review?.id}/edit`}
+                >
+                  <button
+                    onClick={() =>
+                      dispatch(
+                        reviewActions.updateReviewThunk(review?.id, {
+                          review: "Updated review",
+                        })
+                      )
+                    }
+                  >
+                    Update
+                  </button>
                 </Link>
                 <OpenModalButton
                   buttonText={"Delete"}
                   className={"delete-button"}
-                  modalComponent={<ConfirmDelete />}
+                  modalComponent={<ConfirmDelete reviewId={review?.id} />}
                 />
               </div>
             </div>
