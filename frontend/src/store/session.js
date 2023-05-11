@@ -56,7 +56,9 @@ export const demoLoginThunk =
       }),
     });
     const data = await reponse.json();
-    dispatch(demoLogin(data.user));
+    const { user: userData } = data;
+
+    dispatch(demoLogin(userData));
     return reponse;
   };
 

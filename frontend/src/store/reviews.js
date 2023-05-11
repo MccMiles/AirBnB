@@ -23,7 +23,7 @@ export const reviewActions = {
 
   deleteReview: (reviewId) => ({
     type: "reviews/deleteReview",
-    payload: reviewId,
+    reviewId,
   }),
 
   setError: (error) => ({
@@ -95,62 +95,53 @@ export const reviewActions = {
           "Content-Type": "application/json",
         },
       });
-      const deletedReview = await response.json();
-      if (response.ok) {
-        console.log("Deleted review:", deletedReview); // Add this line
-        dispatch(reviewActions.deleteReview(deletedReview.reviewId));
-      }
-      return deletedReview;
-    } catch (error) {
-      console.error(error);
-    }
-  },
-
-  fetchUser: (userId) => async (dispatch) => {
-    try {
-      const response = await csrfFetch(`/api/users/${userId}`);
-      if (response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
-        throw new Error("Failed to fetch user");
-      }
+      const data = await response.json();
+      dispatch(reviewActions.deleteReview(reviewId));
+      return data;
     } catch (error) {
       console.error(error);
     }
   },
 };
+
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case "reviews/setReviews":
-      return { ...state, reviews: action.payload, error: null };
-
-    case "reviews/createReview":
+      const normalizedReviews = {};
+      action.payload.forEach((review) => {
+        normalizedReviews[review.id] = review;
+      });
       return {
         ...state,
-        reviews: { ...state.reviews, [action.payload.id]: action.payload },
-        error: null,
+        reviews: normalizedReviews,
       };
+    case "reviews/createReview":
+      const newState = { ...state };
+      newState.reviews[action.review.id] = action.review;
+      return newState;
 
     case "reviews/updateReview":
-      const { reviewId, updatedReview } = action.payload;
       return {
         ...state,
         reviews: {
           ...state.reviews,
-          [reviewId]: { ...state.reviews[reviewId], ...updatedReview },
+          [action.payload.id]: action.payload,
         },
-        error: null,
+      };
+    case "reviews/deleteReview":
+      const newReviews = { ...state.reviews };
+      delete newReviews[action.reviewId];
+
+      return {
+        ...state,
+        reviews: newReviews,
       };
 
-    case "reviews/deleteReview":
-      console.log("Deleting review:", action.payload); // Add this line
-      const { [action.payload]: deletedReview, ...rest } = state.reviews;
-      return { ...state, reviews: rest, error: null };
-
     case "reviews/setError":
-      return { ...state, error: action.payload };
-
+      return {
+        ...state,
+        error: action.payload,
+      };
     default:
       return state;
   }

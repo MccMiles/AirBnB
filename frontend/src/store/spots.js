@@ -24,11 +24,11 @@ export const spotActions = {
         throw new Error("Failed to create spot");
       }
       const data = await response.json();
-      dispatch(spotActions.setSpotDetails(data));
-      return data; // Optionally, return the created spot data
+      dispatch(spotActions.setSpotDetails(data.newSpot));
+      return data.newSpot;
     } catch (error) {
       console.error("Error creating spot:", error);
-      throw error; // Rethrow the error to handle it in the component
+      throw error;
     }
   },
 
@@ -92,9 +92,8 @@ const spotsReducer = (state = initialState, action) => {
     case "spots/setSpotDetails":
       return { ...state, spotDetails: action.payload };
 
-    case "spots/createSpot":
-      return { ...state, spots: [...state.spots, action.payload] };
-
+    case "spots/createSpot": // Update the action type
+      return { ...state, spotDetails: action.payload }; // Update spotDetails with the action payload
     case "spots/createSpotImage":
       return state;
 

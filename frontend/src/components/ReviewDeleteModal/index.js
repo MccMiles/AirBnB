@@ -3,24 +3,38 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { useHistory } from "react-router-dom";
 import { reviewActions } from "../../store/reviews";
+import "./ReviewDeleteModal.css";
 
 const DeleteReview = ({ reviewId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { closeModal } = useModal();
 
-  const reviewUser = useSelector((state) => state.reviews.reviews);
-  console.log("==REVIEW======>", reviewUser);
+  const reviews = useSelector((state) => state.reviews);
+  const sessionUser = useSelector((state) => state.session.user);
 
-  const deleteReview = async (e) => {
+  const userId = sessionUser.id;
+
+  const handleDelete = async (e) => {
     e.preventDefault();
 
-    const review = reviewUser.find((review) => review.id === reviewId);
+    const foundReview = Object.values(reviews.reviews).find(
+      (review) => review.userId === userId
+    );
 
-    if (review) {
-      await dispatch(reviewActions.deleteReviewThunk(review.id)).then(() => {
-        history.push("/spots/current");
-      });
+    console.log("===sessionUser=====>", userId);
+    console.log("FOUND====REVIEW====>", foundReview);
+
+    if (foundReview) {
+      const spotId = foundReview.spotId;
+      console.log("====SPOT=ID====>", spotId);
+
+      await dispatch(reviewActions.deleteReviewThunk(foundReview.id));
+
+      history.push(`/spots/${spotId}`);
+      closeModal();
+    } else {
+      console.log("Review not found for the current user.");
     }
   };
 
@@ -29,15 +43,19 @@ const DeleteReview = ({ reviewId }) => {
   };
 
   return (
-    <form onSubmit={deleteReview}>
+    <form className="main">
       <div className="confirm-container">
-        <h1>Confirm Delete</h1>
-        <p id="confirm">Are you sure you want to delete this review?</p>
+        <h1 className="heading">Confirm Delete</h1>
+        <p id="question">Are you sure you want to delete this review?</p>
         <div className="confirm-container">
-          <button type="submit" className="confirm-button">
+          <button
+            type="button"
+            className="answer-button"
+            onClick={handleDelete}
+          >
             Yes (Delete Review)
           </button>
-          <button className="deny-button" onClick={handleNoClick}>
+          <button className="answer-button" onClick={handleNoClick}>
             No (Keep Review)
           </button>
         </div>

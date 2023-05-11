@@ -1,127 +1,62 @@
-.spotform-container {
+.main {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  width: 500px;
-  height: 900px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  box-sizing: border-box;
+  align-items: flex-start; /* Adjusted alignment to start from the top */
+  min-height: 100vh; /* Changed height to min-height */
+  background-color: hsl(13, 100%, 96%);
 }
 
-.error {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  color: #ff5a5f;
-  text-align: center;
+.spot-form {
+  max-width: 500px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px; /* Added margin-top to create space below navigation bar */
+}
+
+.spot-form h1 {
+  font-size: 24px;
   margin-bottom: 20px;
 }
 
-.error p {
-  margin-bottom: 10px;
+.spot-form .section {
+  margin-bottom: 30px;
 }
 
-label {
+.spot-form .label {
   display: block;
   margin-bottom: 10px;
-  font-weight: bold;
 }
 
-input[type="text"],
-textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-  font-size: 14px;
-  height: 40px;
+.spot-form .label input,
+.spot-form textarea {
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px; /* Added margin-bottom to create space below each input */
+  padding-left: 10px; /* Added padding to the left side of the input */
+  padding-right: 10px; /* Added padding to the right side of the input */
 }
 
-textarea {
-  height: 100px;
+.spot-form .button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-input[type="number"] {
-  height: 40px;
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-.preview-img {
-  width: 100%;
-  height: 250px;
-  border-radius: 5px;
-  object-fit: cover;
-  margin-bottom: 20px;
-}
-
-.image-label {
-  font-weight: bold;
+.spot-form .button.fill-button {
+  background-color: #f0f0f0;
+  color: #007bff;
   margin-bottom: 10px;
 }
 
-.images {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 20px;
-  margin-bottom: 20px;
-}
-
-.image-input {
-  display: none;
-}
-
-.image-upload {
-  width: 100%;
-  height: 150px;
-  border: 1px dashed #ddd;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
-}
-
-.upload-icon {
-  font-size: 60px;
-  color: #ccc;
-}
-
-.delete-icon {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: #fff;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.submit-button {
-  /* background-color: #ff5a5f; */
-
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+.spot-form .errors {
+  color: red;
+  margin-top: 5px;
+  font-size: 12px;
 }

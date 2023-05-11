@@ -14,9 +14,14 @@ const ConfirmDelete = ({ spotId }) => {
   const { closeModal } = useModal();
 
   const handleDelete = async () => {
-    if (currentSpot.length > 0) {
+    const foundSpot = currentSpot.find((spot) => spot.id === spotId);
+
+    if (foundSpot) {
       await dispatch(spotActions.deleteSpot(spotId));
+      history.push("/spots"); // Redirect to the spots page after deletion
       closeModal();
+    } else {
+      console.log("Spot not found.");
     }
   };
 
