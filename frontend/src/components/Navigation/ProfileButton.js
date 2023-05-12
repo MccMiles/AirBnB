@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import "./Profile.css";
 const ProfileButton = ({ user }) => {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const history = useHistory(); // Add this line
+
+  function handleReserve(e) {
+    e.preventDefault();
+    window.alert("feature coming soon!");
+  }
 
   useEffect(() => {
     if (!showMenu) return;
@@ -28,7 +34,9 @@ const ProfileButton = ({ user }) => {
 
   const logout = (e) => {
     e.preventDefault();
-    dispatch(sessionActions.logout());
+    dispatch(sessionActions.logout()).then(() => {
+      history.push("/");
+    });
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -49,9 +57,9 @@ const ProfileButton = ({ user }) => {
           <NavLink className="highlight" to={`/spots/current`}>
             <li>Manage Spots</li>
           </NavLink>
-          <NavLink className="highlight" to={`/reviews/current`}>
+          <div className="coming-soon" onClick={handleReserve}>
             <li>Manage Reviews</li>
-          </NavLink>
+          </div>
           <li>
             <button onClick={logout}>Logout</button>
           </li>

@@ -18,24 +18,9 @@ function SignupFormModal() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  const [usernameValid, setUsernameValid] = useState(false);
 
   const { closeModal } = useModal();
 
-  const MIN_EMAIL_LENGTH = 5;
-  const MIN_USERNAME_LENGTH = 4;
-  const MIN_FIRSTNAME_LENGTH = 2;
-  const MIN_LASTNAME_LENGTH = 2;
-  const MIN_PASSWORD_LENGTH = 6;
-  const MIN_CONFIRM_PASSWORD_LENGTH = 6;
-
-  const vFirstName = firstName.length >= MIN_FIRSTNAME_LENGTH;
-  const vLastName = lastName.length >= MIN_LASTNAME_LENGTH;
-  const vEmail = email.length >= MIN_EMAIL_LENGTH;
-  const vUsername = username.length >= MIN_USERNAME_LENGTH;
-  const vPassword = password.length >= MIN_PASSWORD_LENGTH;
-  const vConfirmPassword =
-    confirmPassword.length >= MIN_CONFIRM_PASSWORD_LENGTH;
   const passwordMatch = password === confirmPassword;
 
   const handleSubmit = (e) => {
@@ -61,16 +46,6 @@ function SignupFormModal() {
       "Confirm Password field must be the same as the Password field",
     ]);
   };
-
-  async function checkUsername(username) {
-    const response = await fetch(`/api/users/${username}`);
-    const data = await response.json();
-    if (response.status === 200) {
-      setUsernameValid(data.valid);
-    } else {
-      setUsernameValid(false);
-    }
-  }
 
   return (
     <div className="signup-form-modal">

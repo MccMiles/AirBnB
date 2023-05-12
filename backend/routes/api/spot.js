@@ -313,7 +313,7 @@ router.post("/", requireAuth, async (req, res, next) => {
     description: description,
     price: price,
   });
-  res.status(201).json({ newSpot: spot });
+  res.status(201).json(spot);
 });
 
 //Add an Image to a Spot based on Spot's id

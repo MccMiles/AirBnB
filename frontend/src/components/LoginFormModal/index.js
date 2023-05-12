@@ -1,4 +1,4 @@
-//redirects you to home when logout
+// proper errors for login
 
 import "./LoginForm.css";
 import React, { useState } from "react";

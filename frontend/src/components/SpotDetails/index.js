@@ -16,6 +16,7 @@ function SpotDetails() {
     currentSpot ? currentSpot.avgStarRating : 0
   );
 
+  console.log("=====currentSpot====", currentSpot);
   function handleReserve(e) {
     e.preventDefault();
     window.alert("feature coming soon!");
@@ -48,61 +49,77 @@ function SpotDetails() {
     <div className="Main">
       <div className="spotdetail-box">
         <div className="header">
-          <h1>{currentSpot.name}</h1>
-          <p>
+          <h1>
+            {currentSpot.name}
+            <span className="num-reviews">
+              &middot;&nbsp;
+              {reviewCount === 0
+                ? "New"
+                : `${reviewCount} ${reviewCount === 1 ? "review" : "reviews"}`}
+            </span>
+          </h1>
+
+          {/* <p>
             <p>&nbsp;&middot;&nbsp;</p>
             {reviewCount === 0
               ? "New"
               : `${reviewCount} ${reviewCount === 1 ? "review" : "reviews"}`}
-          </p>
+          </p> */}
           <p className="location">
             {currentSpot.city}, {currentSpot.state}, {currentSpot.country}
           </p>
         </div>
-        <div className="grid-container">
-          {currentSpot.SpotImages.map((image) => (
-            <div
-              // style={{ width: "300px", height: "auto" }}
-              className="item"
-              key={image.id}
-            >
-              <img src={image.url} alt={currentSpot.name} />
-            </div>
-          ))}
-        </div>
-
-        <div className="description-grid">
-          <div>
-            <p>
-              Hosted by {currentSpot.Owner.firstName}{" "}
-              {currentSpot.Owner.lastName}
-            </p>
-            <p>{currentSpot.description}</p>
+        <div className="display-box">
+          <div className="grid-container">
+            {currentSpot.SpotImages.map((image) => (
+              <div
+                // style={{ width: "300px", height: "auto" }}
+                className="item"
+                key={image.id}
+              >
+                <img src={image.url} alt={currentSpot.name} />
+              </div>
+            ))}
           </div>
 
-          <div className="reserve-grid">
-            <p className="price">
-              $
-              {Number.isInteger(currentSpot.price)
-                ? currentSpot.price.toFixed(2)
-                : currentSpot.price}{" "}
-              night
-            </p>
-
-            <div
-              className="stars-container"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <div
-                className="fa-sharp fa-solid fa-star star-color"
-                style={{ color: "#ffc857" }}
-              ></div>{" "}
-              {reviewCount === 0 ? "New" : currentRating}
+          <div className="description-grid">
+            <div className="host-description">
+              <p>
+                Hosted by {currentSpot.Owner.firstName}{" "}
+                {currentSpot.Owner.lastName}
+              </p>
+              {currentSpot.description}
             </div>
 
-            <button onClick={handleReserve} className="reserve-button">
-              Reserve
-            </button>
+            <div className="reserve-grid">
+              <p className="price">
+                $
+                {Number.isInteger(currentSpot.price)
+                  ? currentSpot.price.toFixed(0)
+                  : currentSpot.price}{" "}
+                night
+              </p>
+
+              <div
+                className="stars-container"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <div
+                  className="fa-sharp fa-solid fa-star star-color"
+                  style={{ color: "#ffc857" }}
+                ></div>
+                {"   "}&nbsp;
+                {reviewCount === 0
+                  ? "New"
+                  : currentRating % 1 === 0 || currentRating % 1 === 0.5
+                  ? currentRating.toFixed(1)
+                  : currentRating.toFixed(2)}
+              </div>
+
+              <button onClick={handleReserve} className="reserve-button">
+                Reserve
+              </button>
+            </div>
           </div>
         </div>
       </div>

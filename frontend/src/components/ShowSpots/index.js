@@ -1,3 +1,6 @@
+//ADD STARS TO TOP LEFT CORNER
+//
+
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { spotActions } from "../../store/spots";
@@ -7,6 +10,7 @@ import "./ShowSpots.css";
 function ShowSpots({ isLoaded }) {
   const dispatch = useDispatch();
   const spots = useSelector((state) => state.spots.spots);
+  const spot1 = useSelector((state) => state.spots);
 
   useEffect(() => {
     dispatch(spotActions.fetchSpots());
@@ -19,6 +23,8 @@ function ShowSpots({ isLoaded }) {
       </div>
     );
   }
+
+  console.log("=======SPOTS111===", Object.keys(spot1));
 
   return (
     isLoaded && (
@@ -40,6 +46,7 @@ function ShowSpots({ isLoaded }) {
                 <h2 className="spot-card-location">
                   {spot.city}, {spot.state}
                 </h2>
+
                 <p className="spot-card-price">${spot.price} night</p>
               </div>
             </div>

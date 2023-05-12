@@ -14,7 +14,8 @@ const UpdateSpot = () => {
   const ownerId = useSelector((state) => state.spots.spotDetails?.Owner?.id);
 
   const [errors, setErrors] = useState({});
-
+  console.log("==============");
+  console.log("=======currentSpot=======", currentSpot);
   useEffect(() => {
     dispatch(spotActions.fetchSpotDetailsById(spotId)).finally(() => {
       setLoading(false);
@@ -44,7 +45,7 @@ const UpdateSpot = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const spot = {
+    const spotData = {
       address,
       country,
       city,
@@ -54,14 +55,15 @@ const UpdateSpot = () => {
       name,
     };
 
-    await dispatch(spotActions.updateSpot(spot))
-      .then(() => {
-        history.push(`/spots/${spotId}`);
-      })
-      .catch((error) => {
-        setErrors(error.response.data.errors);
-      });
+    try {
+      await dispatch(spotActions.updateSpot(spotId, spotData));
+      history.push(`/spots/${spotId}`);
+    } catch (error) {
+      setErrors(error.response.data.errors);
+    }
   };
+
+  console.log("========SUBMISSION=SPOT=====", currentSpot);
 
   return !loading && currentSpot ? (
     <div className="Main">
@@ -154,8 +156,11 @@ const UpdateSpot = () => {
         </div>
 
         <div className="actions">
+          {/* <Link to={`/spots/${spotId}`} className="cancel-link">
+            <button type="submit">Update Spot</button>
+          </Link> */}
           <button type="submit">Update Spot</button>
-          <Link to={`/spots/${spotId}`} className="cancel-link">
+          <Link to={`/spots/current`} className="cancel-link">
             Cancel
           </Link>
         </div>

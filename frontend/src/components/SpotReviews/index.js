@@ -1,30 +1,25 @@
+// HIDE POST REVIEW BUTTON IF IT SPOT BELONGS TO USER
+// INDENT THE REVIEW IN REVIEW BOX
+
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { reviewActions } from "../../store/reviews";
-import { spotActions } from "../../store/spots";
 import OpenModalButton from "../OpenModalButton";
 import PostReviewModal from "../PostReviewModal";
 import DeleteReview from "../ReviewDeleteModal";
 import "./SpotReviews.css";
-import { useModal } from "../../context/Modal";
 
 const SpotReviews = () => {
   const dispatch = useDispatch();
   const [review, setReview] = useState("");
-  const [starRating, setStarRating] = useState(0);
-  const [errors, setErrors] = useState({});
+
   const spot = useSelector((state) => state.spots.spotDetails);
-  const { closeModal } = useModal();
+
   const reviews = useSelector((state) => Object.values(state.reviews.reviews));
   const { spotId } = useParams();
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.session.user);
-
-  function handleReserve(e) {
-    e.preventDefault();
-    window.alert("feature coming soon!");
-  }
 
   function handleReserve(e) {
     e.preventDefault();
@@ -94,7 +89,8 @@ const SpotReviews = () => {
                 year: "numeric",
               })}
             </p>
-            <p>{currentUserReview.review}</p>
+            <p className="indent">{currentUserReview.review}</p>
+            <br />
             <button onClick={handleReserve} className="reserve-button">
               Update
             </button>
@@ -105,6 +101,7 @@ const SpotReviews = () => {
             />
           </div>
         )}
+        <br />
         {sortedReviews.map((review) => {
           if (review.User.id === user?.id) {
             // Skip rendering user's review again
@@ -123,6 +120,7 @@ const SpotReviews = () => {
             </div>
           );
         })}
+        <br />
         {renderPostReview()}
       </div>
     );

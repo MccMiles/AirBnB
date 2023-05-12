@@ -18,6 +18,8 @@
 
 .each-review {
   margin-bottom: 47px;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .review-box .fa-sharp.fa-solid.fa-star {

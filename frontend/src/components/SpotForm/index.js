@@ -11,8 +11,9 @@ import jungleImage03 from "../../images/jungleImage03.jpeg";
 import jungleImage04 from "../../images/jungleImage04.jpeg";
 import jungleImage05 from "../../images/jungleImage05.jpeg";
 
+import { csrfFetch } from "../../store/csrf";
+
 function SpotForm() {
-  const dispatch = useDispatch();
   const history = useHistory();
 
   const [country, setCountry] = useState("");
@@ -33,40 +34,37 @@ function SpotForm() {
   const [errors, setErrors] = useState({});
   const [imageErrors, setImageErrors] = useState({});
 
-  const currentDetails = useSelector((state) => state.spots);
+  const [currentDetails, setCurrentDetails] = useState({
+    spots: [],
+    spotDetails: [],
+  });
+
+  // const currentDetails = useSelector((state) => state.spots.spotDetails);
 
   const sessionUser = useSelector((state) => state.session.user);
 
   const userId = sessionUser.id;
 
+  // console.log('==============>',)
+  console.log("======currentDetails========>", currentDetails);
+  console.log("======sessionUser========>", sessionUser);
+  console.log("==============>");
+  console.log("==============>");
+  console.log("==============>");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const spotImages = [previewImage, image2, image3, image4, image5];
 
     const formData = {
       country,
+      address,
       city,
       state,
-      address,
       description,
       price,
-      name,
     };
 
-    let hasInvalidImage = false;
-    let totalErrors = {};
-
-    spotImages.forEach((image, index) => {
-      if (image.url) {
-        if (!/\.(png|jpe?g)$/i.test(image.url)) {
-          hasInvalidImage = true;
-        }
-      }
-    });
-
-    if (hasInvalidImage) {
-      totalErrors.imageErrors = "Image URLs must end in .png, .jpg, or .jpeg";
-    }
+    const totalErrors = {};
 
     if (!formData.country) {
       totalErrors.country = "Country is required";
@@ -89,37 +87,42 @@ function SpotForm() {
         "Description must be at least 30 characters long";
     }
 
-    if (!formData.name) {
-      totalErrors.name = "Name is required";
-    }
-
     if (!formData.price) {
       totalErrors.price = "Price is required";
     } else if (isNaN(parseFloat(formData.price))) {
       totalErrors.price = "Price must be a number";
     }
 
-    if (Object.keys(imageErrors).length > 0) {
-      totalErrors = { ...totalErrors, ...imageErrors };
-    }
-
     if (Object.keys(totalErrors).length > 0) {
       setErrors(totalErrors);
     } else {
-      await dispatch(spotActions.createSpot(formData))
-        .then(() => {
-          history.push("/spots");
-        })
-        .catch((error) => {
-          console.log("Error creating spot:", error);
-          // Update error state if necessary
+      try {
+        const response = await csrfFetch("/api/spots", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         });
+
+        if (!response.ok) {
+          throw new Error("Failed to create spot");
+        }
+
+        const data = await response.json();
+        console.log("Response data:", data);
+        setCurrentDetails({ spots: [], spotDetails: [] });
+        history.push("/spots");
+      } catch (error) {
+        console.error("Error creating spot:", error);
+        // Handle error if necessary
+      }
     }
   };
 
   const handleFillButtonClick = () => {
     setCountry("Costa Rica");
-    setAddress("123 Jungle Cabin Road");
+    setAddress("901 Jungle Cabin Road");
     setCity("San José");
     setState("San José");
     setDescription(
@@ -127,23 +130,23 @@ function SpotForm() {
     );
     setPrice("180");
     setPreviewImage({
-      url: jungleImage01,
+      url: process.env.PUBLIC_URL + "/images/jungleImage01.jpeg",
       previewImg: true,
     });
     setImage2({
-      url: jungleImage02,
+      url: process.env.PUBLIC_URL + "/images/jungleImage02.jpeg",
       previewImg: false,
     });
     setImage3({
-      url: jungleImage03,
+      url: process.env.PUBLIC_URL + "/images/jungleImage03.jpeg",
       previewImg: false,
     });
     setImage4({
-      url: jungleImage04,
+      url: process.env.PUBLIC_URL + "/images/jungleImage04.jpeg",
       previewImg: false,
     });
     setImage5({
-      url: jungleImage05,
+      url: process.env.PUBLIC_URL + "/images/jungleImage05.jpeg",
       previewImg: false,
     });
 
@@ -266,6 +269,7 @@ function SpotForm() {
           <h2>Liven up your spot with photos</h2>
           <p>Submit a link to at least one photo to publish your spot.</p>
           {errors.imageErrors && <p className="errors">{errors.imageErrors}</p>}
+
           <input
             type="text"
             placeholder="Preview Image URL"
@@ -275,7 +279,6 @@ function SpotForm() {
             }
           />
 
-          <br />
           <input
             type="text"
             placeholder="Image URL"

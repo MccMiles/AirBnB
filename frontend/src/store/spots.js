@@ -13,6 +13,7 @@ export const spotActions = {
 
   createSpot: (spot) => async (dispatch) => {
     try {
+      console.log("Creating spot with", spot);
       const response = await csrfFetch("/api/spots", {
         method: "POST",
         headers: {
@@ -24,6 +25,7 @@ export const spotActions = {
         throw new Error("Failed to create spot");
       }
       const data = await response.json();
+      console.log("New spot created:", data.newSpot);
       dispatch(spotActions.setSpotDetails(data.newSpot));
       return data.newSpot;
     } catch (error) {
@@ -40,9 +42,9 @@ export const spotActions = {
     },
   }),
 
-  updateSpot: (spot) => async (dispatch) => {
+  updateSpot: (spotId, spot) => async (dispatch) => {
     try {
-      const response = await csrfFetch(`/api/spots/${spot.id}`, {
+      const response = await csrfFetch(`/api/spots/${spotId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -53,11 +55,12 @@ export const spotActions = {
         throw new Error("Failed to update spot");
       }
       const data = await response.json();
-      dispatch(spotActions.setSpotDetails(data));
-      return data; // Optionally, return the updated spot data
+      console.log("Spot updated:", data.updatedSpot);
+      dispatch(spotActions.setSpotDetails(data.updatedSpot)); // Update this line
+      return data.updatedSpot;
     } catch (error) {
       console.error("Error updating spot:", error);
-      throw error; // Rethrow the error to handle it in the component
+      throw error;
     }
   },
 
@@ -100,7 +103,7 @@ const spotsReducer = (state = initialState, action) => {
     case "spots/updateSpot":
       return {
         ...state,
-        spotDetails: action.payload, // Update spotDetails with the updated spot
+        spotDetails: action.payload,
       };
 
     case "spots/deleteSpot":

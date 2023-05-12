@@ -5,7 +5,7 @@ import { reviewActions } from "../../store/reviews";
 import { useSelector, useDispatch } from "react-redux";
 import "./PostReviewModal.css";
 import { useModal } from "../../context/Modal";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const PostReviewModal = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,6 @@ const PostReviewModal = () => {
   const validReview = review.length >= MIN_LENGTH;
 
   const history = useHistory();
-  const params = useParams();
 
   const handleRatingChange = (e) => {
     setStarRating(parseInt(e.target.value, 10));
