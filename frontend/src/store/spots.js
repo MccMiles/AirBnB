@@ -11,10 +11,41 @@ export const spotActions = {
     payload: spotDetails,
   }),
 
-  createSpot: (spot) => ({
-    type: "spots/createSpot",
-    payload: spot,
+  removeSpot: (spotId) => ({
+    type: "spots/removeSpot",
+    payload: spotId,
   }),
+
+  setErrors: (errors) => ({
+    type: "spots/setErrors",
+    payload: errors,
+  }),
+
+  createSpot: (spotData) => async (dispatch) => {
+    try {
+      const response = await csrfFetch("/api/spots", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(spotData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create spot");
+      }
+
+      const data = await response.json();
+
+      if (data.errors) {
+        dispatch(spotActions.setErrors(data.errors));
+      } else {
+        dispatch(spotActions.setSpotDetails(data));
+      }
+    } catch (error) {
+      console.error("Error creating spot:", error);
+    }
+  },
 
   createSpotImage: (spotId, spotImage) => ({
     type: "spots/createSpotImage",
@@ -24,15 +55,45 @@ export const spotActions = {
     },
   }),
 
-  updateSpot: (spot) => ({
-    type: "spots/updateSpot",
-    payload: spot,
-  }),
+  updateSpot: (spotId, spot) => async (dispatch) => {
+    try {
+      const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(spot),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update spot");
+      }
+      const data = await response.json();
 
-  deleteSpot: (spotId) => ({
-    type: "spots/deleteSpot",
-    payload: spotId,
-  }),
+      dispatch(spotActions.setSpotDetails(data.updatedSpot)); // Update this line
+      return data.updatedSpot;
+    } catch (error) {
+      console.error("Error updating spot:", error);
+      throw error;
+    }
+  },
+
+  deleteSpot: (spotId) => async (dispatch) => {
+    try {
+      const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete spot");
+      }
+
+      dispatch(spotActions.removeSpot(spotId));
+      return true; // Return a success flag
+    } catch (error) {
+      console.error("Error deleting spot:", error);
+      return false; // Return a failure flag
+    }
+  },
 
   fetchSpots: () => async (dispatch) => {
     const response = await csrfFetch("/api/spots");
@@ -60,25 +121,22 @@ const spotsReducer = (state = initialState, action) => {
     case "spots/setSpotDetails":
       return { ...state, spotDetails: action.payload };
 
-    case "spots/createSpot":
-      return { ...state, spots: [...state.spots, action.payload] };
-
+    case "spots/createSpot": // Update the action type
+      return { ...state, spotDetails: action.payload }; // Update spotDetails with the action payload
     case "spots/createSpotImage":
       return state;
 
     case "spots/updateSpot":
-      const index = state.spots.findIndex(
-        (spot) => spot.id === action.payload.id
-      );
-      const updatedSpots = [...state.spots];
-      updatedSpots[index] = action.payload;
-      return { ...state, spots: updatedSpots };
+      return {
+        ...state,
+        spotDetails: action.payload,
+      };
 
-    case "spots/deleteSpot":
-      const remainingSpots = state.spots.filter(
+    case "spots/removeSpot":
+      const filteredSpots = state.spots.filter(
         (spot) => spot.id !== action.payload
       );
-      return { ...state, spots: remainingSpots };
+      return { ...state, spots: filteredSpots };
 
     default:
       return state;

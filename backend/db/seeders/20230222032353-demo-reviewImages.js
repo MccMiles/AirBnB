@@ -10,27 +10,27 @@ if (process.env.NODE_ENV === "production") {
 const ri = [
   {
     reviewId: 1,
-    url: "https://source.unsplash.com/random/?beachfront,property",
+    url: "https://source.unsplash.com/random/1080x720/?beachfront,property",
   },
   {
     reviewId: 2,
-    url: "https://source.unsplash.com/random/?apartments,skyline",
+    url: "https://source.unsplash.com/random/1080x720/?apartments,skyline",
   },
   {
     reviewId: 3,
-    url: "https://source.unsplash.com/random/?highrise,apartment",
+    url: "https://source.unsplash.com/random/1080x720/?highrise,apartment",
   },
   {
     reviewId: 4,
-    url: "https://source.unsplash.com/random/?contemporary,loft,apartment",
+    url: "https://source.unsplash.com/random/1080x720/?contemporary,loft,apartment",
   },
   {
     reviewId: 5,
-    url: "https://source.unsplash.com/random/?wilderness,cabin",
+    url: "https://source.unsplash.com/random/1080x720/?wilderness,cabin",
   },
   {
     reviewId: 6,
-    url: "https://source.unsplash.com/random/?rural,mountain,home",
+    url: "https://source.unsplash.com/random/1080x720/?rural,mountain,home",
   },
 ];
 

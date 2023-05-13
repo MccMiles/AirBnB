@@ -13,12 +13,10 @@
 }
 
 .login-modal ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  color: #ff5a5f;
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-modal li {
@@ -43,17 +41,7 @@
   font-size: 14px;
 }
 
-.login-modal button {
-  background-color: #ff5a5f;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
+
 
 .login-modal a {
   font-size: 14px;
@@ -64,15 +52,15 @@
 }
 
 .login-modal a:hover {
-  color: #ff5a5f;
+  /* color: #ff5a5f; */
 }
 
 .login-modal button:hover {
-  background-color: #ff4b4f;
+  /* background-color: #ff4b4f; */
 }
 
 .login-modal input:focus {
   outline: none;
   box-shadow: 0 0 3px 2px rgba(255, 90, 95, 0.5);
-  border: 1px solid #ff5a5f;
+  /* border: 1px solid #ff5a5f; */
 }

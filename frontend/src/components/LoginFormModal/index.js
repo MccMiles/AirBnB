@@ -1,3 +1,5 @@
+// proper errors for login
+
 import "./LoginForm.css";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -10,6 +12,17 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
+
+  const handleDemoLogin = (e) => {
+    e.preventDefault();
+    setErrors([]);
+    return dispatch(
+      sessionActions.loginThunk({
+        credential: "demo@user.io",
+        password: "hN9vDqFk-mW573Pxjsg5r4LB4YUXy9weZrGJ",
+      })
+    ).then(closeModal);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,8 +67,8 @@ function LoginFormModal() {
         />
       </label>
       <button type="submit">Log In</button>
-      <div>
-        <a href="/demo-user">Login as Demo</a>
+      <div className="demo-login" onClick={handleDemoLogin}>
+        Demo User
       </div>
     </form>
   );

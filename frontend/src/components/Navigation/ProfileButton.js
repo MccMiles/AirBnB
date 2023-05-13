@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
-
+import { NavLink, useHistory } from "react-router-dom";
+import "./Profile.css";
 const ProfileButton = ({ user }) => {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const history = useHistory(); // Add this line
+
+  function handleReserve(e) {
+    e.preventDefault();
+    window.alert("feature coming soon!");
+  }
 
   useEffect(() => {
     if (!showMenu) return;
@@ -27,26 +34,37 @@ const ProfileButton = ({ user }) => {
 
   const logout = (e) => {
     e.preventDefault();
-    dispatch(sessionActions.logout());
+    dispatch(sessionActions.logout()).then(() => {
+      history.push("/");
+    });
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <>
-      <button onClick={openMenu}>
-        <i className="fa-solid fa-user fa-sm"></i>
-      </button>
-      <ul className={ulClassName} ref={ulRef}>
-        <li>{user.username}</li>
-        <li>
-          {user.firstName} {user.lastName}
-        </li>
-        <li>{user.email}</li>
-        <li>
-          <button onClick={logout}>Logout</button>
-        </li>
-      </ul>
+      <div className="outer-buttons">
+        <button onClick={openMenu}>
+          <i className="fa-solid fa-user fa-sm"></i>
+        </button>
+      </div>
+      <div className="inner-buttons">
+        <ul className={ulClassName} ref={ulRef}>
+          <li>
+            <p>Hello, {user.firstName}</p>
+          </li>
+          <li>{user.email}</li>
+          <NavLink className="highlight" to={`/spots/current`}>
+            <li>Manage Spots</li>
+          </NavLink>
+          <div className="coming-soon" onClick={handleReserve}>
+            <li>Manage Reviews</li>
+          </div>
+          <li>
+            <button onClick={logout}>Logout</button>
+          </li>
+        </ul>
+      </div>
     </>
   );
 };

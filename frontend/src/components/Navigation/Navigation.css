@@ -1,62 +1,40 @@
-ul {
+.hidden {
+  display: none;
+}
+
+.spotlink:hover {
+  color: #00a699;
+}
+
+.nav-flexbox {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  background-color: #fff;
-  border-bottom: 1px solid #484848;
-  height: 60px;
+  height: 60px; /* set a fixed height to prevent the navbar from changing size */
+  padding: 0 20px; /* add some padding to the left and right of the navbar */
+  background-color: #fff; /* add a background color to the navbar */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* add a box shadow to the navbar */
 }
 
-li {
-  margin-right: 10px;
-}
-
-li:last-child {
-  margin-right: 0;
-}
-
-.home-logo {
+.nav-flexbox img {
   height: 40px;
   width: 128px;
 }
 
+.spotlink {
+  margin-left: auto; /* move the spotlink to the right */
+  margin-right: 10px; /* add some space between the spotlink and profile button */
+}
+
+.nav-flexbox ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.login-modal,
 .signup-modal {
-  background-color: #ff5a5f;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-.signup-modal:hover {
-  background-color: #ff4b4f;
-}
-
-.login-modal:hover,
-.signup-modal:hover {
-  background-color: #ddd;
-}
-
-.nav-link {
-  color: #ff5a5f;
-}
-
-.nav-icon {
-  color: #ff5a5f;
-}
-
-.nav-title {
-  color: #ff5a5f;
-  margin-left: 5px;
-}
-
-.hidden {
-  display: none;
+  margin-left: 10px; /* add some space between the login and signup buttons */
 }
