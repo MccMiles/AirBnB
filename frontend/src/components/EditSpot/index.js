@@ -14,8 +14,7 @@ const UpdateSpot = () => {
   const ownerId = useSelector((state) => state.spots.spotDetails?.Owner?.id);
 
   const [errors, setErrors] = useState({});
-  console.log("==============");
-  console.log("=======currentSpot=======", currentSpot);
+
   useEffect(() => {
     dispatch(spotActions.fetchSpotDetailsById(spotId)).finally(() => {
       setLoading(false);
@@ -62,8 +61,6 @@ const UpdateSpot = () => {
       setErrors(error.response.data.errors);
     }
   };
-
-  console.log("========SUBMISSION=SPOT=====", currentSpot);
 
   return !loading && currentSpot ? (
     <div className="Main">

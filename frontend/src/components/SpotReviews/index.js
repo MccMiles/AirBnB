@@ -89,7 +89,6 @@ const SpotReviews = () => {
                 year: "numeric",
               })}
             </p>
-            <br />
             <p className="indent">{currentUserReview.review}</p>
             <br />
             <button onClick={handleReserve} className="reserve-button">
@@ -103,6 +102,7 @@ const SpotReviews = () => {
           </div>
         )}
         <br />
+        {renderPostReview()}
         {sortedReviews.map((review) => {
           if (review.User.id === user?.id) {
             // Skip rendering user's review again
@@ -117,25 +117,23 @@ const SpotReviews = () => {
                   year: "numeric",
                 })}
               </p>
-              <br />
               <p>{review.review}</p>
-              <br />
             </div>
           );
         })}
         <br />
-        {renderPostReview()}
       </div>
     );
   } else {
     return (
       <>
-        <p
-          className="fa-sharp fa-solid fa-star"
-          style={{ color: "#ffc857" }}
-        ></p>{" "}
-        <div className="review-header">
-          <div className="review-box">
+        <p style={{ color: "#ffc857" }}></p>{" "}
+        <div className="review-box">
+          <div className="review-header">
+            <div
+              className="fa-sharp fa-solid fa-star"
+              style={{ color: "#ffc857" }}
+            ></div>{" "}
             <p>&nbsp;&middot;&nbsp;</p>
             {reviewsCount === 0
               ? "New"
@@ -143,7 +141,6 @@ const SpotReviews = () => {
                   reviewsCount === 1 ? "review" : "reviews"
                 }`}
           </div>
-          {renderPostReview()}
         </div>
       </>
     );

@@ -23,7 +23,6 @@ export const spotActions = {
 
   createSpot: (spotData) => async (dispatch) => {
     try {
-      console.log("Creating spot...");
       const response = await csrfFetch("/api/spots", {
         method: "POST",
         headers: {
@@ -39,16 +38,12 @@ export const spotActions = {
       const data = await response.json();
 
       if (data.errors) {
-        // Handle errors returned from the API
         dispatch(spotActions.setErrors(data.errors));
       } else {
-        // Dispatch an action to set the created spot
-        console.log("Spot created:", data);
         dispatch(spotActions.setSpotDetails(data));
       }
     } catch (error) {
       console.error("Error creating spot:", error);
-      // Handle error if necessary
     }
   },
 
@@ -73,7 +68,7 @@ export const spotActions = {
         throw new Error("Failed to update spot");
       }
       const data = await response.json();
-      console.log("Spot updated:", data.updatedSpot);
+
       dispatch(spotActions.setSpotDetails(data.updatedSpot)); // Update this line
       return data.updatedSpot;
     } catch (error) {

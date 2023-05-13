@@ -36,31 +36,19 @@ export const loginThunk = (user) => async (dispatch) => {
   return response;
 };
 
-export const demoLoginThunk =
-  (
-    user = {
-      username: "demo",
-      firstName: "Demo",
-      lastName: "User",
-      email: "demo@user.io",
-    }
-  ) =>
-  async (dispatch) => {
-    const credential = user.email;
-    const password = "password";
-    const reponse = await csrfFetch("/api/session", {
-      method: "POST",
-      body: JSON.stringify({
-        credential,
-        password,
-      }),
-    });
-    const data = await reponse.json();
-    const { user: userData } = data;
-
-    dispatch(demoLogin(userData));
-    return reponse;
-  };
+export const demoLoginThunk = (user) => async (dispatch) => {
+  const { credential, password } = user;
+  const response = await csrfFetch("/api/session", {
+    method: "POST",
+    body: JSON.stringify({
+      credential,
+      password,
+    }),
+  });
+  const data = await response.json();
+  dispatch(setSession(data.user));
+  return response;
+};
 
 export const restoreUser = () => async (dispatch) => {
   const response = await csrfFetch("/api/session");

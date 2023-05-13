@@ -1,67 +1,80 @@
+.show-spots-container {
+  padding: 2rem;
+  background-color: #f7f7f7;
+}
+
 .spots-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .spot-card {
-  width: 400px;
-  margin: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.spot-card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.image-box {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: 100%;
 }
 
 .spot-card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 60%;
+  height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-.spot-card-details {
-  padding: 20px;
+/* .detail-box {
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0); 
+  min-height: 40%; 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  flex-grow: 1;
-}
+} */
 
 .spot-card-location {
-  margin-bottom: 10px;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.spot-card-rating {
+  display: inline-block;
+  color: #ffc857;
+  margin-right: 0.5rem;
+}
+
+.star-color {
+  color: #ffc857;
+}
+
+.review-count {
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
 }
 
 .spot-card-price {
-  font-size: 16px;
-  color: gray;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 1rem;
 }
 
-a {
-  color: black;
+.spot-link {
   text-decoration: none;
-}
-
-@media only screen and (max-width: 480px) {
-  .spot-card {
-    width: 90%;
-    margin: 10px;
-  }
-}
-
-@media only screen and (max-width: 320px) {
-  .spots-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .spot-card {
-    width: 90%;
-    margin: 10px 0;
-  }
+  color: inherit;
 }

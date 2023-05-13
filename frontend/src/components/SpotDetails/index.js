@@ -16,7 +16,6 @@ function SpotDetails() {
     currentSpot ? currentSpot.avgStarRating : 0
   );
 
-  console.log("=====currentSpot====", currentSpot);
   function handleReserve(e) {
     e.preventDefault();
     window.alert("feature coming soon!");
@@ -31,19 +30,20 @@ function SpotDetails() {
     setCurrentRating(currentSpot ? currentSpot.avgStarRating : 0);
   }, [currentSpot]);
 
-  useEffect(() => {
-    if (currentSpot) {
-      currentSpot.SpotImages.forEach((image) => {
-        const img = new Image();
-        img.onload = () => {
-          console.log(
-            `Original size of ${image.url}: ${img.naturalWidth}px x ${img.naturalHeight}px`
-          );
-        };
-        img.src = image.url;
-      });
-    }
-  }, [currentSpot]);
+  //find img size
+  // useEffect(() => {
+  //   if (currentSpot) {
+  //     currentSpot.SpotImages.forEach((image) => {
+  //       const img = new Image();
+  //       img.onload = () => {
+  //         console.log(
+  //           `Original size of ${image.url}: ${img.naturalWidth}px x ${img.naturalHeight}px`
+  //         );
+  //       };
+  //       img.src = image.url;
+  //     });
+  //   }
+  // }, [currentSpot]);
 
   return currentSpot ? (
     <div className="Main">
@@ -54,17 +54,11 @@ function SpotDetails() {
             <span className="num-reviews">
               &middot;&nbsp;
               {reviewCount === 0
-                ? "New"
+                ? "Be the first to review!"
                 : `${reviewCount} ${reviewCount === 1 ? "review" : "reviews"}`}
             </span>
           </h1>
 
-          {/* <p>
-            <p>&nbsp;&middot;&nbsp;</p>
-            {reviewCount === 0
-              ? "New"
-              : `${reviewCount} ${reviewCount === 1 ? "review" : "reviews"}`}
-          </p> */}
           <p className="location">
             {currentSpot.city}, {currentSpot.state}, &nbsp;{" "}
             {currentSpot.country}

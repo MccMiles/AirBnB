@@ -10,7 +10,7 @@ const ConfirmDelete = ({ spotId }) => {
 
   const handleDelete = async () => {
     const a = spotActions.deleteSpot(spotId);
-    console.log("===========A", a);
+
     try {
       const success = await dispatch(spotActions.deleteSpot(spotId));
       if (success) {
@@ -18,12 +18,12 @@ const ConfirmDelete = ({ spotId }) => {
       } else {
         console.error("Error deleting spot");
         closeModal();
-        console.log("FAILED");
+        // console.log("FAILED");
       }
     } catch (error) {
       console.error("Error deleting spot:", error);
       closeModal();
-      console.log("FAILED");
+      // console.log("FAILED");
     }
   };
 

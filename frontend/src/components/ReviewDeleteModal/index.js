@@ -22,19 +22,13 @@ const DeleteReview = ({ reviewId }) => {
       (review) => review.userId === userId
     );
 
-    console.log("===sessionUser=====>", userId);
-    console.log("FOUND====REVIEW====>", foundReview);
-
     if (foundReview) {
       const spotId = foundReview.spotId;
-      console.log("====SPOT=ID====>", spotId);
 
       await dispatch(reviewActions.deleteReviewThunk(foundReview.id));
 
       history.push(`/spots/${spotId}`);
       closeModal();
-    } else {
-      console.log("Review not found for the current user.");
     }
   };
 

@@ -6,7 +6,6 @@ import "./SpotForm.css";
 import { spotActions } from "../../store/spots";
 
 import { useHistory, useParams } from "react-router-dom";
-
 import jungleImage01 from "../../images/jungleImage01.jpeg";
 import jungleImage02 from "../../images/jungleImage02.jpeg";
 import jungleImage03 from "../../images/jungleImage03.jpeg";
@@ -23,7 +22,7 @@ function SpotForm() {
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
-  const [lat, setlat] = useState("");
+  const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
   const [state, setState] = useState("");
   const [description, setDescription] = useState("");
@@ -117,6 +116,7 @@ function SpotForm() {
 
       const spot = await dispatch(
         spotActions.createSpot(formData, newSpotImages)
+        // .then(history.go(`/spots/${spotId}`))
       );
 
       const newSpotId = spot.id;
@@ -125,8 +125,9 @@ function SpotForm() {
         setNewSpot(spot);
         setCountry("");
         setAddress("");
-        setlat("1.0000");
-        setCity("1.0000");
+        setLat("");
+        setLng("");
+        setCity("");
         setState("");
         setDescription("");
         setPrice("");
@@ -136,12 +137,12 @@ function SpotForm() {
         setImage4("");
         setImage5("");
         setErrors([]);
-        history.push(url);
       }
+      history.push(url);
     } catch (res) {
       const data = await res.json();
 
-      console.log(data);
+      // console.log(data);
     }
   };
 
@@ -155,23 +156,23 @@ function SpotForm() {
     );
     setPrice("180");
     setPreviewImage({
-      url: process.env.PUBLIC_URL + "/images/jungleImage01.jpeg",
+      url: jungleImage01,
       previewImg: true,
     });
     setImage2({
-      url: process.env.PUBLIC_URL + "/images/jungleImage02.jpeg",
+      url: jungleImage02,
       previewImg: false,
     });
     setImage3({
-      url: process.env.PUBLIC_URL + "/images/jungleImage03.jpeg",
+      url: jungleImage03,
       previewImg: false,
     });
     setImage4({
-      url: process.env.PUBLIC_URL + "/images/jungleImage04.jpeg",
+      url: jungleImage04,
       previewImg: false,
     });
     setImage5({
-      url: process.env.PUBLIC_URL + "/images/jungleImage05.jpeg",
+      url: jungleImage05,
       previewImg: false,
     });
 
@@ -304,6 +305,13 @@ function SpotForm() {
             }
           />
 
+          <img
+            src={previewImage.url}
+            alt="Preview"
+            className="preview-image"
+            style={{ display: previewImage.url ? "block" : "none" }}
+          />
+
           <input
             type="text"
             placeholder="Image URL"
@@ -311,6 +319,13 @@ function SpotForm() {
             onChange={(e) =>
               setImage2({ url: e.target.value, previewImg: false })
             }
+          />
+
+          <img
+            src={image2.url}
+            alt="Image 2"
+            className="preview-image"
+            style={{ display: image2.url ? "block" : "none" }}
           />
 
           <input
@@ -322,6 +337,13 @@ function SpotForm() {
             }
           />
 
+          <img
+            src={image3.url}
+            alt="Image 3"
+            className="preview-image"
+            style={{ display: image3.url ? "block" : "none" }}
+          />
+
           <input
             type="text"
             placeholder="Image URL"
@@ -331,6 +353,13 @@ function SpotForm() {
             }
           />
 
+          <img
+            src={image4.url}
+            alt="Image 4"
+            className="preview-image"
+            style={{ display: image4.url ? "block" : "none" }}
+          />
+
           <input
             type="text"
             placeholder="Image URL"
@@ -338,6 +367,13 @@ function SpotForm() {
             onChange={(e) =>
               setImage5({ url: e.target.value, previewImg: false })
             }
+          />
+
+          <img
+            src={image5.url}
+            alt="Image 5"
+            className="preview-image"
+            style={{ display: image5.url ? "block" : "none" }}
           />
         </div>
 
