@@ -34,7 +34,6 @@ h1 {
 .location {
   line-height: 20px;
   font-size: 14px;
-  text-decoration: underline;
   font-weight: 600;
   position: relative;
   color: hsl(34, 34%, 34%);

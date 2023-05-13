@@ -38,43 +38,41 @@ const ManageSpot = () => {
       </Link>
       <div className="spots-container">
         {userSpots.map((spot) => (
-          <Link to={`/spots/${spot.id}`} className="spot-link" key={spot.id}>
-            <div className="spot-card" key={spot.id} data-spot-name={spot.name}>
-              <img
-                className="spots-image"
-                src={spot.previewImage}
-                alt={spot.name}
-                style={{ height: "300px" }}
+          <div className="spot-card" key={spot.id} data-spot-name={spot.name}>
+            <img
+              className="spots-image"
+              src={spot.previewImage}
+              alt={spot.name}
+              style={{ height: "300px" }}
+            />
+
+            <div className="update-delete">
+              <Link to={`/spots/${spot.id}/edit`}>
+                <button>Update</button>
+              </Link>
+              <OpenModalButton
+                buttonText={"Delete"}
+                className={"delete-button"}
+                modalComponent={<ConfirmDelete spotId={spot?.id} />}
               />
-
-              <div className="card-text">
-                <p>
-                  {spot.city}, {spot.state}
-                </p>
-                {isNaN(spot.avgRating) ? (
-                  <div className="stars-container">
-                    <p className="fa-solid fa-star">New</p>
-                  </div>
-                ) : (
-                  <div className="stars-container">
-                    <p className="fa-solid fa-star">{spot.avgRating}</p>
-                  </div>
-                )}
-                <p>${spot.price} night</p>
-              </div>
-
-              <div className="update-delete">
-                <Link to={`/spots/${spot.id}/edit`}>
-                  <button>Update</button>
-                </Link>
-                <OpenModalButton
-                  buttonText={"Delete"}
-                  className={"delete-button"}
-                  modalComponent={<ConfirmDelete />}
-                />
-              </div>
             </div>
-          </Link>
+
+            <div className="card-text">
+              <p>
+                {spot.city}, {spot.state}
+              </p>
+              {isNaN(spot.avgRating) ? (
+                <div className="stars-container">
+                  <p className="fa-solid fa-star">New</p>
+                </div>
+              ) : (
+                <div className="stars-container">
+                  <p className="fa-solid fa-star">{spot.avgRating}</p>
+                </div>
+              )}
+              <p>${spot.price} night</p>
+            </div>
+          </div>
         ))}
       </div>
     </div>
@@ -89,3 +87,12 @@ const ManageSpot = () => {
 };
 
 export default ManageSpot;
+
+<div>
+  <link>
+    <div>image</div>
+    <div>spot details</div>
+  </link>
+
+  <div>buttons</div>
+</div>;

@@ -1,9 +1,11 @@
+// ADD VALIDATION FOR TITLE OF SPOT
+
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./SpotForm.css";
 import { spotActions } from "../../store/spots";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import jungleImage01 from "../../images/jungleImage01.jpeg";
 import jungleImage02 from "../../images/jungleImage02.jpeg";
@@ -11,17 +13,25 @@ import jungleImage03 from "../../images/jungleImage03.jpeg";
 import jungleImage04 from "../../images/jungleImage04.jpeg";
 import jungleImage05 from "../../images/jungleImage05.jpeg";
 
-import { csrfFetch } from "../../store/csrf";
-
 function SpotForm() {
+  const { spotId } = useParams();
+  const [spot, setSpot] = useState([]);
+
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
+  const [lat, setlat] = useState("");
+  const [lng, setLng] = useState("");
   const [state, setState] = useState("");
   const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [errors, setErrors] = useState([]);
+  const [newSpot, setNewSpot] = useState(null);
+
   const [previewImage, setPreviewImage] = useState({
     url: "",
     previewImg: true,
@@ -31,40 +41,36 @@ function SpotForm() {
   const [image4, setImage4] = useState({ url: "", previewImg: false });
   const [image5, setImage5] = useState({ url: "", previewImg: false });
   const [name, setName] = useState("");
-  const [errors, setErrors] = useState({});
+
   const [imageErrors, setImageErrors] = useState({});
-
-  const [currentDetails, setCurrentDetails] = useState({
-    spots: [],
-    spotDetails: [],
-  });
-
-  // const currentDetails = useSelector((state) => state.spots.spotDetails);
-
-  const sessionUser = useSelector((state) => state.session.user);
-
-  const userId = sessionUser.id;
-
-  // console.log('==============>',)
-  console.log("======currentDetails========>", currentDetails);
-  console.log("======sessionUser========>", sessionUser);
-  console.log("==============>");
-  console.log("==============>");
-  console.log("==============>");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const imageErrors = {};
+    const spotImages = [previewImage, image2, image3, image4, image5];
+
     const formData = {
       country,
-      address,
       city,
       state,
+      address,
+      lat,
+      lng,
       description,
       price,
+      name,
     };
 
-    const totalErrors = {};
+    if (!previewImage.url) {
+      imageErrors.spotPreviewImage = "Preview Image is required";
+    }
+
+    if (!/\.(png|jpe?g)$/i.test(previewImage.url)) {
+      imageErrors.imageUrl = "Image URL must end in .png, .jpg or .jpeg";
+    }
+
+    let totalErrors = {};
 
     if (!formData.country) {
       totalErrors.country = "Country is required";
@@ -87,36 +93,55 @@ function SpotForm() {
         "Description must be at least 30 characters long";
     }
 
+    if (!formData.name) {
+      totalErrors.name = "Name is required";
+    }
+
     if (!formData.price) {
       totalErrors.price = "Price is required";
     } else if (isNaN(parseFloat(formData.price))) {
       totalErrors.price = "Price must be a number";
     }
 
+    if (Object.keys(imageErrors).length > 0) {
+      totalErrors = { ...totalErrors, ...imageErrors };
+    }
+    // Check if there are any errors
     if (Object.keys(totalErrors).length > 0) {
       setErrors(totalErrors);
-    } else {
-      try {
-        const response = await csrfFetch("/api/spots", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
+      return; // Exit the function if there are errors
+    }
 
-        if (!response.ok) {
-          throw new Error("Failed to create spot");
-        }
+    try {
+      const newSpotImages = spotImages.map((image) => image.url);
 
-        const data = await response.json();
-        console.log("Response data:", data);
-        setCurrentDetails({ spots: [], spotDetails: [] });
-        history.push("/spots");
-      } catch (error) {
-        console.error("Error creating spot:", error);
-        // Handle error if necessary
+      const spot = await dispatch(
+        spotActions.createSpot(formData, newSpotImages)
+      );
+
+      const newSpotId = spot.id;
+      const url = `/spots/${newSpotId}`;
+      if (spot) {
+        setNewSpot(spot);
+        setCountry("");
+        setAddress("");
+        setlat("1.0000");
+        setCity("1.0000");
+        setState("");
+        setDescription("");
+        setPrice("");
+        setPreviewImage({ url: "", previewImg: true });
+        setImage2("");
+        setImage3("");
+        setImage4("");
+        setImage5("");
+        setErrors([]);
+        history.push(url);
       }
+    } catch (res) {
+      const data = await res.json();
+
+      console.log(data);
     }
   };
 
@@ -155,7 +180,7 @@ function SpotForm() {
     setImageErrors({});
   };
 
-  return currentDetails || userId ? (
+  return (
     <div className="main">
       <form className="spot-form" onSubmit={handleSubmit}>
         <button
@@ -321,7 +346,7 @@ function SpotForm() {
         </button>
       </form>
     </div>
-  ) : null;
+  );
 }
 
 export default SpotForm;

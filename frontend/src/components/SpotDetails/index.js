@@ -66,7 +66,8 @@ function SpotDetails() {
               : `${reviewCount} ${reviewCount === 1 ? "review" : "reviews"}`}
           </p> */}
           <p className="location">
-            {currentSpot.city}, {currentSpot.state}, {currentSpot.country}
+            {currentSpot.city}, {currentSpot.state}, &nbsp;{" "}
+            {currentSpot.country}
           </p>
         </div>
         <div className="display-box">

@@ -12,7 +12,7 @@ import "./SpotReviews.css";
 
 const SpotReviews = () => {
   const dispatch = useDispatch();
-  const [review, setReview] = useState("");
+  const [review] = useState("");
 
   const spot = useSelector((state) => state.spots.spotDetails);
 
@@ -89,6 +89,7 @@ const SpotReviews = () => {
                 year: "numeric",
               })}
             </p>
+            <br />
             <p className="indent">{currentUserReview.review}</p>
             <br />
             <button onClick={handleReserve} className="reserve-button">
@@ -116,7 +117,9 @@ const SpotReviews = () => {
                   year: "numeric",
                 })}
               </p>
+              <br />
               <p>{review.review}</p>
+              <br />
             </div>
           );
         })}
