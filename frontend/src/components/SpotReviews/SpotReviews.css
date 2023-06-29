@@ -1,0 +1,41 @@
+.review-box {
+  background-color: transparent;
+
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+/*  */
+.review-header p {
+  margin: 0;
+}
+
+.each-review {
+  margin-bottom: 47px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.review-box .fa-sharp.fa-solid.fa-star {
+  color: #fc642d;
+}
+
+.post-review {
+  margin-right: 10px;
+}
+
+.loading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.spot-not-found {
+  text-align: center;
+  margin-bottom: 20px;
+}

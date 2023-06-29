@@ -1,0 +1,62 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Adjusted alignment to start from the top */
+  min-height: 100vh; /* Changed height to min-height */
+  background-color: hsl(13, 100%, 96%);
+}
+
+.spot-form {
+  max-width: 500px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px; /* Added margin-top to create space below navigation bar */
+}
+
+.spot-form h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.spot-form .section {
+  margin-bottom: 30px;
+}
+
+.spot-form .label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.spot-form .label input,
+.spot-form textarea {
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px; /* Added margin-bottom to create space below each input */
+  padding-left: 10px; /* Added padding to the left side of the input */
+  padding-right: 10px; /* Added padding to the right side of the input */
+}
+
+.spot-form .button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.spot-form .button.fill-button {
+  background-color: #f0f0f0;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.spot-form .errors {
+  color: red;
+  margin-top: 5px;
+  font-size: 12px;
+}
